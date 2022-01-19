@@ -1,7 +1,7 @@
 {
   "name": "OneAI-nutshell",
-  "version": "4.2.0",
-  "description": "An extension from OneAI to give you superpowers! We can summarize, get main topics, emotions, keywords, entities and so much more to improve productivity!",
+  "version": "0.0.1",
+  "description": "OneAI give you superpowers! We can summarize, get main topics, emotions, keywords, entities from any text!",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -10,6 +10,7 @@
   "scripts": {
     "build": "node utils/build.js",
     "start": "node utils/webserver.js",
+    "zip": "yarn build && rm build.zip && zip build.zip build/*",
     "prettier": "prettier --write '**/*.{js,jsx,ts,tsx,json,css,scss,md}'"
   },
   "dependencies": {

@@ -1,6 +1,8 @@
 {
   "manifest_version": 3,
   "name": "One AI Nutshell",
+  "description": "OneAI give you superpowers! We can summarize, get main topics, emotions, keywords, entities from any text!",
+  "version": "0.0.1",
   "options_page": "options.html",
   "background": {
     "service_worker": "background.bundle.js"

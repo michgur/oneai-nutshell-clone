@@ -1,21 +1,26 @@
-import React from 'react';
-import { RecoilRoot } from 'recoil';
+import React, { useEffect } from 'react';
+import { RecoilRoot, useSetRecoilState } from 'recoil';
 import Footer from './components/footer';
 import Header from './components/header';
 import Main from './components/main';
+import { urlState } from './lib/atoms';
 import './Popup.css';
 
-const Popup = () => {
+const Popup = ({ url }) => {
   return (
     <RecoilRoot>
-      <App />
+      <App url={url} />
     </RecoilRoot>
   );
 };
 
-function App() {
+function App({ url }) {
+  const setURL = useSetRecoilState(urlState);
+  useEffect(() => {
+    setURL(url);
+  }, [url]);
   return (
-    <div className="app-wrapper bg-dark inset-0 h-full absolute px-4">
+    <div className="app-wrapper bg-dark h-full px-4">
       <Header />
       <Main />
       <Footer />

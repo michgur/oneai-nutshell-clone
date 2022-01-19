@@ -5,4 +5,9 @@ const summaryState = atom({
   default: '',
 });
 
-export { summaryState };
+const urlState = atom({
+  key: 'urlState',
+  default: '',
+});
+
+export { summaryState, urlState };

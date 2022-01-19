@@ -1,6 +1,6 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { summaryState } from '../lib/atoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { summaryState, urlState } from '../lib/atoms';
 import { extractOutput } from '../lib/comm';
 import { Button } from './button';
 import { Spinner } from './spinner';
@@ -11,7 +11,7 @@ const SUMMARY_LOADING = 'SUMMARY_LOADING';
 const SUMMARY_ERROR = 'We ran into an issue. Sorry for that 😞';
 
 export function SummarySection() {
-  const [text, setText] = useRecoilState(summaryState);
+  const text = useRecoilValue(summaryState);
   return (
     <Section className="pb-8">
       {text === '' ? null : (
@@ -34,12 +34,9 @@ export function SummarySection() {
 }
 
 export function SummaryButton() {
-  const [text, setText] = useRecoilState(summaryState);
-
+  const setText = useSetRecoilState(summaryState);
+  const url = useRecoilValue(urlState);
   const onClick = async (event) => {
-    const url =
-      'https://donaldgmcneiljr1954.medium.com/trump-backs-boosters-clearly-someone-did-the-math-for-him-153a2ff62718';
-    // 'https://medium.com/the-defi-wonderland/wonderland-update-transition-to-wmemo-d57845560832';
     console.log('result');
     setText(SUMMARY_LOADING);
     const result = await extractOutput(url);

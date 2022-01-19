@@ -12,7 +12,7 @@ export default function Main() {
 
 function Board() {
   return (
-    <div className="grid grid-cols-1 pt-4 w-fit">
+    <div className="grid grid-cols-1 pt-2 border-b pb-6">
       <SummaryButton />
     </div>
   );
@@ -20,7 +20,7 @@ function Board() {
 
 function Sections() {
   return (
-    <div className="grid pt-4">
+    <div className="grid pt-6">
       <SummarySection />
     </div>
   );

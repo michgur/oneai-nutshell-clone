@@ -1,5 +1,5 @@
-// const apiURL = 'https://oneai-nutshell.herokuapp.com/extract-output/';
-const apiURL = 'http://localhost:8000/extract-output/';
+const apiURL = 'https://oneai-nutshell.herokuapp.com/extract-output/';
+// const apiURL = 'http://localhost:8000/extract-output/';
 
 export async function extractOutput(url: string) {
   try {

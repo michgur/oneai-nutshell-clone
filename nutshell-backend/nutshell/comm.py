@@ -23,7 +23,12 @@ def get_skills(text: str):
         "text": text,
         "input_type": "article",
         "steps": [
-            {"skill": "summarize", input: "0", id: "1", "params": {"max_length": 100}},
+            {
+                "skill": "summarize",
+                "input": "0",
+                "id": "1",
+                "params": {"min_length": 5, "max_length": 100, "find_origins": False},
+            }
             # {"skill": "entities", "input": "0", "id": "1"},
             # {"skill": "article-topics", "input": "1", "id": "2"},
         ],

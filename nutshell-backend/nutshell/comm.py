@@ -35,7 +35,7 @@ def get_skills(text: str, uid: UUID):
     }
     try:
         headers = {"Content-Type": "application/json"}
-        r = requests.post(oneai_api, json.dumps(data), headers=headers)
+        r = requests.post(oneai_api, json.dumps(data), headers=headers, timeout=25)
         return r.json()
     except RequestException as e:
         logger.debug(f"[ f{uid} get_skills error ] {str(e)}")

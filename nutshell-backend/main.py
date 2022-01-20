@@ -32,6 +32,8 @@ async def extract_text(url: str):
     uid = uuid4()
     logger.debug(f"[ f{uid} extract-output url ] {url}")
     text = extract_from_url(url, uid)
+    if text is None:
+        return None
     logger.debug(f"[ f{uid} extract-output text ] {text}")
     output = get_skills(text, uid)
     logger.debug(f"[ f{uid} extract-output output ] {output}")

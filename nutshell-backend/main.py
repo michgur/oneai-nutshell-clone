@@ -1,4 +1,8 @@
+import random
+from uuid import uuid4
+
 from fastapi import FastAPI
+from loguru import logger
 
 from nutshell.comm import get_skills
 from nutshell.extract_text import extract_from_url
@@ -16,12 +20,19 @@ async def root():
 
 @app.get("/extract-text/")
 async def extract_text(url: str):
-    text = extract_from_url(url)
+    uid = uuid4()
+    logger.debug(f"[ f{uid} extract-output url ] {url}")
+    text = extract_from_url(url, uid)
+    logger.debug(f"[ f{uid} extract-output text ] {text}")
     return text
 
 
 @app.get("/extract-output/")
 async def extract_text(url: str):
-    text = extract_from_url(url)
-    output = get_skills(text)
+    uid = uuid4()
+    logger.debug(f"[ f{uid} extract-output url ] {url}")
+    text = extract_from_url(url, uid)
+    logger.debug(f"[ f{uid} extract-output text ] {text}")
+    output = get_skills(text, uid)
+    logger.debug(f"[ f{uid} extract-output output ] {output}")
     return output

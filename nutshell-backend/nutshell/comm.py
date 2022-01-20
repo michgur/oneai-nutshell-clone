@@ -1,22 +1,22 @@
 import json
 from typing import Optional
+from uuid import UUID
 
 import requests
 from requests import RequestException
 from loguru import logger
 
 
-def get_page(url: str) -> Optional[str]:
+def get_page(url: str, uid: UUID) -> Optional[str]:
     try:
         r = requests.get(url)
         return r.text
     except RequestException as e:
-
-        logger.debug("get_page", str(e))
+        logger.debug(f"[ f{uid} get_page error ] {str(e)}")
         return None
 
 
-def get_skills(text: str):
+def get_skills(text: str, uid: UUID):
     # oneai_api = "https://stage-studio.oneai.com/api/v0/pipeline"
     oneai_api = "https://staging.oneai.com/api/v0/pipeline"
     data = {
@@ -37,5 +37,6 @@ def get_skills(text: str):
         headers = {"Content-Type": "application/json"}
         r = requests.post(oneai_api, json.dumps(data), headers=headers)
         return r.json()
-    except RequestException as exc:
+    except RequestException as e:
+        logger.debug(f"[ f{uid} get_skills error ] {str(e)}")
         return None

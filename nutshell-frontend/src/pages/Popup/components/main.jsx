@@ -1,27 +1,24 @@
 import React from 'react';
-import { SummaryButton, SummarySection } from './summary';
+import { EmotionsSection } from './emotions';
+import { SummarySlider } from './slider';
+import { SummarySection } from './summary';
+import { TableOfContents } from './table-of-contents';
 
 export default function Main() {
   return (
-    <main>
-      <Board />
+    <main className="px-4">
       <Sections />
     </main>
   );
 }
 
-function Board() {
-  return (
-    <div className="grid grid-cols-1 pt-2 border-b pb-6">
-      <SummaryButton />
-    </div>
-  );
-}
-
 function Sections() {
   return (
-    <div className="grid pt-6">
+    <div className="grid pt-6 text-white">
       <SummarySection />
+      <SummarySlider />
+      <EmotionsSection />
+      <TableOfContents />
     </div>
   );
 }

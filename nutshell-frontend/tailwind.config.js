@@ -4,12 +4,16 @@ module.exports = {
     colors: {
       dark: '#1d1c29',
       light: '#EDEDED',
-      title: '#272535',
+      black: '#000000',
+      white: '#ffffff',
+      darkGray: '#272535',
       pink: '#f23de9',
       green: '#00fb40',
       yellow: '#ffe800',
       blue: '#4D4DFF',
       cyan: '#00FFFF',
+      gray: '#AAA6B5',
+      buttonHover: '#FFF2',
     },
     extend: {
       gridTemplateColumns: {

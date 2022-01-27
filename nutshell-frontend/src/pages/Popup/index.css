@@ -7,13 +7,13 @@
 
 html {
   @apply text-light;
-  min-height: 400px;
+  min-height: 600px;
   height: 100%;
 }
 
 body {
-  width: 500px;
-  min-height: 400px;
+  width: 400px;
+  min-height: 600px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -35,7 +35,7 @@ body {
 
 /* Scrollbar Styles */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 3px;
   border-radius: 6px;
 }
 
@@ -47,5 +47,5 @@ body {
   background: #ffe800;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #00ffff;
 }

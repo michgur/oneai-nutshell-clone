@@ -4,11 +4,13 @@ import Footer from './components/footer';
 import Header from './components/header';
 import Main from './components/main';
 import { urlState } from './lib/atoms';
+import DataBUS from './lib/data-bus';
 import './Popup.css';
 
 const Popup = ({ url }) => {
   return (
     <RecoilRoot>
+      <DataBUS />
       <App url={url} />
     </RecoilRoot>
   );
@@ -20,7 +22,7 @@ function App({ url }) {
     setURL(url);
   }, [url]);
   return (
-    <div className="app-wrapper bg-dark h-full px-4">
+    <div className="app-wrapper bg-dark h-full">
       <Header />
       <Main />
       <Footer />

@@ -1,56 +1,30 @@
 import React from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { summaryState, urlState } from '../lib/atoms';
-import { extractOutput } from '../lib/comm';
-import { Button } from './button';
+import { useRecoilState } from 'recoil';
+import { summaryState } from '../lib/atoms';
+import { DATA_LOADING, SUMMARY_ERROR } from '../lib/data-bus';
 import { Spinner } from './spinner';
-import { SectionHeader } from './text';
 import { Section } from './wrappers';
 
-const SUMMARY_LOADING = 'SUMMARY_LOADING';
-const SUMMARY_ERROR = 'We ran into an issue. Sorry for that 😞';
-
 export function SummarySection() {
-  const text = useRecoilValue(summaryState);
+  const [text, setText] = useRecoilState(summaryState);
+  console.log('!!!!!!!!!!!!!!!!!!!', text);
   return (
-    <Section className="pb-8">
+    <Section className="pb-8 font-roboto text-lg leading-6">
       {text === '' ? null : (
         <>
-          <SectionHeader>Summary</SectionHeader>
-          {text === SUMMARY_LOADING ? (
-            <Spinner className={'justify-self-center'} />
+          {text === DATA_LOADING ? (
+            <>
+              <span role="alert">Loading summary...</span>
+              <Spinner className={'mt-4'} />
+            </>
           ) : // 'Loading'
           text === SUMMARY_ERROR ? (
-            <div role={alert} className="mt-4">
-              {text}
-            </div>
+            <div role={'alert'}>{text}</div>
           ) : (
-            <div className="mt-4">{text}</div>
+            <div>{text}</div>
           )}
         </>
       )}
     </Section>
-  );
-}
-
-export function SummaryButton() {
-  const setText = useSetRecoilState(summaryState);
-  const url = useRecoilValue(urlState);
-  const onClick = async (event) => {
-    console.log('result');
-    setText(SUMMARY_LOADING);
-    const result = await extractOutput(url);
-    console.log(result);
-    if (result === null) {
-      setText(SUMMARY_ERROR);
-    } else {
-      setText(result.output[0].text);
-    }
-  };
-
-  return (
-    <Button onClick={onClick} className={'bg-yellow rounded-full text-dark'}>
-      Summarize page
-    </Button>
   );
 }

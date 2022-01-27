@@ -28,13 +28,15 @@ async def extract_text(url: str):
 
 
 @app.get("/extract-output/")
-async def extract_text(url: str):
+async def extract_text(url: str, summary_percent: str):
     uid = uuid4()
-    logger.debug(f"[ f{uid} extract-output url ] {url}")
+    logger.debug(
+        f"[ f{uid} extract-output ] url: {url} summary_percent: {summary_percent}"
+    )
     text = extract_from_url(url, uid)
     if text is None:
         return None
-    logger.debug(f"[ f{uid} extract-output text ] {text}")
-    output = get_skills(text, uid)
-    logger.debug(f"[ f{uid} extract-output output ] {output}")
+    logger.debug(f"[ f{uid} extract-output ] text: {text}")
+    output = get_skills({"text": text, "summary_percent": summary_percent}, uid)
+    logger.debug(f"[ f{uid} extract-output ] output: {output}")
     return output

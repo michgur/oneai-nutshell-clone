@@ -1,10 +1,89 @@
 import { LS_PREFIX } from './atoms';
 import { SUMMARY_ERROR } from './data-bus';
-
-// const apiURL = 'https://oneai-nutshell.herokuapp.com/extract-output/';
-const apiURL = 'http://localhost:8000/extract-output/';
+import { PipelineOpts } from './interface';
+import { requestHeader, requestSteps } from './utils';
+const apiURL = 'https://api.oneai.com/api/v0/pipeline';
 
 const mock = false;
+
+export async function extractTextFromHtml(
+  htmlCode: string,
+  opts: PipelineOpts
+) {
+  try {
+    const rawResponse = await fetch(apiURL, {
+      method: 'POST',
+      headers: { ...requestHeader },
+      body: JSON.stringify({
+        text: htmlCode,
+        input_type: 'auto-detect',
+        steps: [{ ...requestSteps.extractHtml }],
+      }),
+    });
+    const response = await rawResponse.json();
+    const textFromHTml = response?.output?.[0]?.text || '';
+    const responseEmotions = await extractEmotions(textFromHTml);
+    const responseSummarize = await extractSummarize(textFromHTml, opts);
+    console.log('[@@@@ extractOutput] response', response);
+    console.log('[@@@@ responseEmotions]', responseEmotions);
+    console.log('[@@@@ responseSummarize]', responseSummarize);
+    responseEmotions.output = [
+      ...responseEmotions.output,
+      ...responseSummarize.output,
+    ];
+    return responseEmotions;
+  } catch (error) {
+    console.log('[@@@@ extractOutput] error', error);
+    return null;
+  }
+}
+
+export async function extractEmotions(text: string) {
+  try {
+    const rawResponse = await fetch(apiURL, {
+      method: 'POST',
+      headers: { ...requestHeader },
+      body: JSON.stringify({
+        text: text,
+        input_type: 'auto-detect',
+        steps: [{ ...requestSteps.emotions }],
+      }),
+    });
+    const response = await rawResponse.json();
+    console.log('[@@@@ extractEmotions] response', response);
+    return response;
+  } catch (error) {
+    console.log('[@@@@ extractEmotions] error', error);
+    return null;
+  }
+}
+
+export async function extractSummarize(text: string, opts: PipelineOpts) {
+  const length = Math.floor((text.length * opts.summaryPercent) / 100);
+  const range = 40;
+  const params = {
+    params: { min_length: length - range, max_length: length + range },
+  };
+  const steps = [{ ...requestSteps.summarize, ...params }];
+  console.log('[@@@@ extractSummarize] steps', steps);
+  try {
+    const rawResponse = await fetch(apiURL, {
+      method: 'POST',
+      headers: { ...requestHeader },
+      body: JSON.stringify({
+        text: text,
+        input_type: 'auto-detect',
+        steps,
+      }),
+    });
+    const response = await rawResponse.json();
+    console.log('[@@@@ extractSummarize] response', response);
+    return response;
+  } catch (error) {
+    console.log('[@@@@ extractSummarize] error', error);
+    return null;
+  }
+}
 
 export async function extractOutput({
   url,
@@ -31,6 +110,7 @@ export async function extractOutput({
     console.log('[@@@@ extractOutput] response', response);
     return response;
   } catch (error) {
+    console.log('[@@@@ extractOutput] error', error);
     return null;
   }
 }
@@ -38,7 +118,7 @@ function sleep(ms: any) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const fromCache = (url: string, summary_percent: string) => {
+export const fromCache = (url: string, summary_percent: string) => {
   try {
     const result = { output: [{ labels: [] }, { text: '' }] };
     let summary = localStorage.getItem(

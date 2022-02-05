@@ -69,7 +69,7 @@ const OneAISlider = styled(Slider)(({ theme }) => ({
 function OneAISliderThumbComponent(props) {
   const { children, ...other } = props;
   return (
-    <SliderThumb {...other}>
+    <SliderThumb key={1} {...other}>
       {children}
       <span>{props.style.left}</span>
     </SliderThumb>

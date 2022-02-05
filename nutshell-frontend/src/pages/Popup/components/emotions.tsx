@@ -14,7 +14,11 @@ export function EmotionsSection() {
       <div className="grid grid-cols-1fr-auto items-center">
         <h2 className="text-lg">Emotions</h2>
         <IconButton
-          onClick={() => {}}
+          onClick={() => {
+            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+              chrome.tabs.sendMessage(tabs[0].id || 0, { from: 'popup', subject: 'changeTextColors', data: emotionsLabels }, function (response) {});
+            });
+          }}
           dataTip={'Show/hide emotions'}
           dataFor={'emotions-showhide'}
           ariaLabel={'Show/hide emotions'}

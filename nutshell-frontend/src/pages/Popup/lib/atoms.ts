@@ -39,7 +39,9 @@ const localStorageEffect =
         ulrKey = `${ulrKey}__${summaryPercent}`;
       }
       console.log('[@@@@ atoms localStorageEffect], onSet:', newValue);
-      localStorage.setItem(ulrKey, JSON.stringify(newValue));
+      if (newValue) {
+        localStorage.setItem(ulrKey, JSON.stringify(newValue));
+      }
     });
   };
 
@@ -73,4 +75,16 @@ const summaryPercentState = atom({
   effects_UNSTABLE: [log],
 });
 
-export { summaryState, emotionsLabelsState, urlState, summaryPercentState };
+const htmlDocumentState = atom({
+  key: 'htmlDocumentState',
+  default: '',
+  effects_UNSTABLE: [log],
+});
+
+export {
+  summaryState,
+  emotionsLabelsState,
+  urlState,
+  summaryPercentState,
+  htmlDocumentState,
+};

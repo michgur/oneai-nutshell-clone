@@ -1,20 +1,19 @@
-import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useEffect } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import {
   emotionsLabelsState,
   htmlDocumentState,
   summaryPercentState,
   summaryState,
   urlState,
-} from './atoms';
-import { extractTextFromHtml, fromCache } from './comm';
+} from "./atoms";
+import { extractTextFromHtml, fromCache } from "./comm";
 
-export const DATA_LOADING = 'DATA_LOADING';
-export const SUMMARY_ERROR = 'We ran into an issue. Sorry for that 😞';
+export const DATA_LOADING = "DATA_LOADING";
+export const SUMMARY_ERROR = "We ran into an issue. Sorry for that 😞";
 export const EMOTIONS_ERROR: any[] = [];
 
 export default function DataBUS() {
-  console.log('[@@@@ DataBUS] start');
   const [text, setText]: any = useRecoilState(summaryState);
   const [emotionsLabels, setEmotionsLabels]: any =
     useRecoilState(emotionsLabelsState);
@@ -22,7 +21,6 @@ export default function DataBUS() {
   const htmlCode: string = useRecoilValue(htmlDocumentState);
   const url: string = useRecoilValue(urlState);
   useEffect(() => {
-    console.log('[@@@@ DataBUS] start');
     const loadData = async () => {
       let result;
       const cacheRes = fromCache(url, String(summaryPercent));
@@ -30,13 +28,9 @@ export default function DataBUS() {
         result = cacheRes;
       } else {
         setText(DATA_LOADING);
-        console.log(
-          '[@@@@ DataBUS] extractTextFromHtm htmlCode.length',
-          htmlCode.length
-        );
-        result = await extractTextFromHtml(htmlCode, { summaryPercent });
+        result = await extractTextFromHtml(htmlCode);
       }
-      console.log('[@@@@ DataBUS] await result', result);
+      console.log("[@@@@ DataBUS] await result", result);
       if (result === null) {
         setText(SUMMARY_ERROR);
         setEmotionsLabels(EMOTIONS_ERROR);
@@ -46,10 +40,12 @@ export default function DataBUS() {
       }
     };
     console.log(
-      '[@@@@ DataBUS]\nuseEffect url',
+      "[@@@@ DataBUS]\nuseEffect url",
       url,
-      'text.length',
-      text?.length
+      "text.length",
+      text.length,
+      "htmlCode",
+      htmlCode,
     );
     if (htmlCode) {
       loadData();

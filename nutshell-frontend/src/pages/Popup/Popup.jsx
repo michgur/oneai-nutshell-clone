@@ -3,7 +3,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 import Footer from './components/footer';
 import Header from './components/header';
 import Main from './components/main';
-import { urlState } from './lib/atoms';
+import { htmlDocumentState, urlState } from './lib/atoms';
 import DataBUS from './lib/data-bus';
 import './Popup.css';
 
@@ -17,10 +17,32 @@ const Popup = ({ url }) => {
 };
 
 function App({ url }) {
+  const setHtml = useSetRecoilState(htmlDocumentState);
   const setURL = useSetRecoilState(urlState);
   useEffect(() => {
-    setURL(url);
-  }, [url]);
+    chrome.tabs.query(
+      {
+        active: true,
+        currentWindow: true,
+      },
+      (tabs) => {
+        chrome.tabs.sendMessage(
+          tabs[0].id,
+          { from: 'popup', subject: 'DOMInfo' },
+          (data) => {
+            if (Boolean(data)) {
+              setHtml(data.html);
+              setURL(data.url)
+            }
+          }
+        );
+      }
+    );
+  }, [setHtml, setURL]);
+
+  // useEffect(() => {
+  //   setURL(url);
+  // }, []);
   return (
     <div className="app-wrapper bg-dark h-full">
       <Header />

@@ -6,9 +6,9 @@ chrome.runtime.sendMessage({
   subject: 'showPageAction',
 });
 
-console.log('[@@@@ content]', 'start');
+console.debug('[@@@@ content]', 'start');
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
-  console.log('[@@@@ content]', msg);
+  console.debug('[@@@@ content]', msg);
   if (msg.from === 'popup' && msg.subject === 'DOMInfo') {
     var domInfo = {
       html: document.documentElement.innerHTML ?? '',

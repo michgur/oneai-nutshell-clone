@@ -16,7 +16,7 @@ function Sections() {
   return (
     <div className="grid pt-6 text-white">
       <SummarySection />
-      <SummarySlider />
+      {/* <SummarySlider /> */}
       <EmotionsSection />
       <TableOfContents />
     </div>

@@ -15,9 +15,20 @@ export function EmotionsSection() {
         <h2 className="text-lg">Emotions</h2>
         <IconButton
           onClick={() => {
-            chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-              chrome.tabs.sendMessage(tabs[0].id || 0, { from: 'popup', subject: 'changeTextColors', data: emotionsLabels }, function (response) {});
-            });
+            chrome.tabs.query(
+              { active: true, currentWindow: true },
+              function (tabs) {
+                chrome.tabs.sendMessage(
+                  tabs[0].id || 0,
+                  {
+                    from: 'popup',
+                    subject: 'changeTextColors',
+                    data: emotionsLabels,
+                  },
+                  function (response) {}
+                );
+              }
+            );
           }}
           dataTip={'Show/hide emotions'}
           dataFor={'emotions-showhide'}

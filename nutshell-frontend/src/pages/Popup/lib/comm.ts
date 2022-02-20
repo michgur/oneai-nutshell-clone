@@ -16,7 +16,7 @@ export async function extractTextFromHtml(
       headers: { ...requestHeader },
       body: JSON.stringify({
         text: htmlCode,
-        input_type: 'auto-detect',
+        input_type: 'article',
         steps: [{ ...requestSteps.extractHtml }],
       }),
     });
@@ -59,12 +59,13 @@ export async function extractEmotions(text: string) {
 }
 
 export async function extractSummarize(text: string, opts: PipelineOpts) {
-  const length = Math.floor((text.length * opts.summaryPercent) / 100);
-  const range = 40;
-  const params = {
-    params: { min_length: length - range, max_length: length + range },
-  };
-  const steps = [{ ...requestSteps.summarize, ...params }];
+  // const length = Math.floor((text.length * opts.summaryPercent) / 100);
+  // const range = 40;
+  // const params = {
+  //   params: { min_length: length - range, max_length: length + range },
+  // };
+  // const steps = [{ ...requestSteps.summarize, ...params }];
+  const steps = [{ ...requestSteps.summarize }];
   console.log('[@@@@ extractSummarize] steps', steps);
   try {
     const rawResponse = await fetch(apiURL, {

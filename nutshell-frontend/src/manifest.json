@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "One AI Nutshell",
-  "description": "OneAI give you superpowers! We can summarize, get main topics, emotions, keywords, entities from any text!",
+  "description": "Read everything faster with this AI-powered summary tool. Nutshell generates summaries and derives insights from articles & emails, allowing you to skim through web pages efficiently.",
   "version": "0.0.1",
   "options_page": "options.html",
   "background": {
@@ -28,6 +28,7 @@
       "js": [
         "contentScript.bundle.js"
       ],
+      "run_at": "document_end",
       "css": [
         "content.styles.css"
       ]

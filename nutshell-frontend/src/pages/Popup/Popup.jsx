@@ -32,7 +32,7 @@ function App({ url }) {
           (data) => {
             if (Boolean(data)) {
               setHtml(data.html);
-              setURL(data.url)
+              setURL(data.url);
             }
           }
         );
@@ -40,9 +40,6 @@ function App({ url }) {
     );
   }, [setHtml, setURL]);
 
-  // useEffect(() => {
-  //   setURL(url);
-  // }, []);
   return (
     <div className="app-wrapper bg-dark h-full">
       <Header />

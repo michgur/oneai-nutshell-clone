@@ -43,7 +43,8 @@ var options = {
     panel: path.join(__dirname, 'src', 'pages', 'Panel', 'index.jsx'),
   },
   chromeExtensionBoilerplate: {
-    notHotReload: ['contentScript', 'devtools'],
+    // notHotReload: ['contentScript', 'devtools'],
+    notHotReload: ['devtools'],
   },
   output: {
     path: path.resolve(__dirname, 'build'),

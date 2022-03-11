@@ -16,22 +16,9 @@ export const requestSteps = {
   },
   emotions: {
     skill: 'emotions',
-    input: '0',
-    id: '1',
-    params: {
-      thresholds: {
-        happiness: 0.7,
-        sadness: 0.4,
-        surprise: 0.7,
-        fear: 0.8,
-        anger: 0.45,
-      },
-    },
   },
   summarize: {
     skill: 'summarize',
-    params: {
-      find_origins: true,
-    },
+    params: { min_length: 150, max_length: 150 },
   },
 };

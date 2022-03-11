@@ -57,6 +57,12 @@ const urlState = atom({
   effects_UNSTABLE: [log],
 });
 
+const pageTitleAtom = atom({
+  key: 'pageTitleAtom',
+  default: '',
+  effects_UNSTABLE: [log],
+});
+
 const summaryState = atom({
   key: 'summaryState',
   default: ' ',
@@ -87,4 +93,5 @@ export {
   urlState,
   summaryPercentState,
   htmlDocumentState,
+  pageTitleAtom,
 };

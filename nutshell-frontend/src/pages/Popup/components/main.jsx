@@ -1,6 +1,5 @@
 import React from 'react';
 import { EmotionsSection } from './emotions';
-import { SummarySlider } from './slider';
 import { SummarySection } from './summary';
 import { TableOfContents } from './table-of-contents';
 
@@ -14,7 +13,7 @@ export default function Main() {
 
 function Sections() {
   return (
-    <div className="grid pt-6 text-white">
+    <div className="grid text-white">
       <SummarySection />
       {/* <SummarySlider /> */}
       <EmotionsSection />

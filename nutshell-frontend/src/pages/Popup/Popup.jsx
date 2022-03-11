@@ -3,7 +3,7 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 import Footer from './components/footer';
 import Header from './components/header';
 import Main from './components/main';
-import { htmlDocumentState, urlState } from './lib/atoms';
+import { htmlDocumentState, pageTitleAtom, urlState } from './lib/atoms';
 import DataBUS from './lib/data-bus';
 import './Popup.css';
 
@@ -18,6 +18,7 @@ const Popup = ({ url }) => {
 
 function App({ url }) {
   const setHtml = useSetRecoilState(htmlDocumentState);
+  const setPageTitle = useSetRecoilState(pageTitleAtom);
   const setURL = useSetRecoilState(urlState);
   useEffect(() => {
     chrome.tabs.query(
@@ -31,6 +32,7 @@ function App({ url }) {
           { from: 'popup', subject: 'DOMInfo' },
           (data) => {
             if (Boolean(data)) {
+              setPageTitle(data.pageTitle);
               setHtml(data.html);
               setURL(data.url);
             }

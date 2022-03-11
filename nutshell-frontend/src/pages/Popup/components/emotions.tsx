@@ -10,7 +10,7 @@ import { IconButton } from './button';
 export function EmotionsSection() {
   const emotionsLabels: any = useRecoilValue(emotionsLabelsState);
   return (
-    <div className="mt-20 grid grid-cols-1 gap-y-1">
+    <div className="mt-10 grid grid-cols-1 gap-y-1">
       <div className="grid grid-cols-1fr-auto items-center">
         <h2 className="text-lg">Emotions</h2>
         <IconButton

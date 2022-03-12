@@ -10,7 +10,7 @@ export function SummarySection() {
   const title = useRecoilValue(pageTitleAtom);
   return (
     <>
-      <h1 className="text-xl pb-4">{title}</h1>
+      <h1 className="text-xl pb-8">{title}</h1>
       <Section className="font-roboto text-lg leading-6 h-summary overflow-auto">
         {text === '' ? null : (
           <>
@@ -64,7 +64,6 @@ function SummaryText({ text }) {
 
   return (
     <>
-      <span className="text-purple"></span>
       <div dangerouslySetInnerHTML={{ __html: textTransformed }}></div>
     </>
   );

@@ -5,7 +5,16 @@ import { IconButton } from './button';
 
 export default function Header() {
   const closeOnClick = () => {
-    window.close();
+    // window.close();
+    chrome.tabs.query(
+      { currentWindow: true, active: true },
+      function (tabs: any) {
+        chrome.tabs.sendMessage(tabs[0].id, {
+          from: 'popup',
+          subject: 'toggle',
+        });
+      }
+    );
   };
   return (
     <header className="flex flex-row justify-between w-full gap-x-8 p-4">

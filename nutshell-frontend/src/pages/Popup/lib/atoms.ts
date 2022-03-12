@@ -69,6 +69,12 @@ const summaryState = atom({
   effects_UNSTABLE: [localStorageEffect('summaryState')],
 });
 
+const entitiesStateAtom = atom({
+  key: 'entitiesStateAtom',
+  default: [],
+  effects_UNSTABLE: [localStorageEffect('entitiesStateAtom')],
+});
+
 const emotionsLabelsState = atom({
   key: 'emotionsLabelsState',
   default: [],
@@ -89,6 +95,7 @@ const htmlDocumentState = atom({
 
 export {
   summaryState,
+  entitiesStateAtom,
   emotionsLabelsState,
   urlState,
   summaryPercentState,

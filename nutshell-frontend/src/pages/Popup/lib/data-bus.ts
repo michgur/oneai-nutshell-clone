@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   emotionsLabelsState,
+  entitiesStateAtom,
   htmlDocumentState,
   summaryPercentState,
   summaryState,
@@ -16,8 +17,8 @@ export const EMOTIONS_ERROR: any[] = [];
 export default function DataBUS() {
   console.log('[@@@@ DataBUS] start');
   const [text, setText]: any = useRecoilState(summaryState);
-  const [emotionsLabels, setEmotionsLabels]: any =
-    useRecoilState(emotionsLabelsState);
+  const setEntities = useSetRecoilState(entitiesStateAtom);
+  const setEmotionsLabels: any = useSetRecoilState(emotionsLabelsState);
   const summaryPercent = useRecoilValue(summaryPercentState);
   const htmlCode: string = useRecoilValue(htmlDocumentState);
   const url: string = useRecoilValue(urlState);
@@ -41,7 +42,9 @@ export default function DataBUS() {
         setText(SUMMARY_ERROR);
         setEmotionsLabels(EMOTIONS_ERROR);
       } else {
+        // debugger;
         setText(result?.output[1]?.text);
+        setEntities(result?.output[1]?.labels);
         setEmotionsLabels(result.output[0].labels);
       }
     };

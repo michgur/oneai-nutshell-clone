@@ -5,7 +5,7 @@ import { IconLink } from './link';
 
 export default function Footer() {
   return (
-    <footer className="grid grid-cols-1fr-auto items-center gap-x-4 p-4 py-2 bg-black">
+    <footer className="grid grid-cols-1fr-auto items-center gap-x-4 p-4 py-2">
       <span className="text-gray font-light items-center">
         Built with One AI's Language Skills
       </span>

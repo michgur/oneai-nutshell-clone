@@ -21,4 +21,5 @@ export const requestSteps = {
     skill: 'summarize',
     params: { min_length: 150, max_length: 150 },
   },
+  entities: { skill: 'entities' },
 };

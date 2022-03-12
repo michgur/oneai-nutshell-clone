@@ -65,7 +65,7 @@ export async function extractSummarize(text: string, opts: PipelineOpts) {
   //   params: { min_length: length - range, max_length: length + range },
   // };
   // const steps = [{ ...requestSteps.summarize, ...params }];
-  const steps = [{ ...requestSteps.summarize }];
+  const steps = [{ ...requestSteps.summarize }, { ...requestSteps.entities }];
   console.log('[@@@@ extractSummarize] steps', steps);
   try {
     const rawResponse = await fetch(apiURL, {

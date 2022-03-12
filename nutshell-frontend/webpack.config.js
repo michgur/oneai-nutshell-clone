@@ -198,6 +198,11 @@ if (env.NODE_ENV === 'development') {
     minimizer: [
       new TerserPlugin({
         extractComments: false,
+        terserOptions: {
+          compress: {
+            drop_console: true,
+          },
+        },
       }),
     ],
   };

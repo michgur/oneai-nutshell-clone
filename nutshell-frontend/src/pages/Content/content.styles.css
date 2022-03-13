@@ -1,0 +1,16 @@
+.oneai__emotion__active.oneai__emotion__happiness {
+  background-color: #f23de9;
+}
+.oneai__emotion__active.oneai__emotion__sadness {
+  background-color: #4d4dff;
+  color: white;
+}
+.oneai__emotion__active.oneai__emotion__surprise {
+  background-color: #00ffff;
+}
+.oneai__emotion__active.oneai__emotion__fear {
+  background-color: #00fb40;
+}
+.oneai__emotion__active.oneai__emotion__anger {
+  background-color: #ffe800;
+}

@@ -1,4 +1,5 @@
 /* eslint-disable default-case */
+import { highLightToggle } from '../Popup/lib/highlight';
 import { ROOT_APP_ID } from '../Popup/lib/utils';
 
 console.debug('[@@@@ content]', 'start');
@@ -18,54 +19,27 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
   }
   if (msg.from === 'background' && msg.subject === 'toggle') {
     const SHOW_APP_ON_INIT = toggle();
-    response({ SHOW_APP_ON_INIT });
   }
   if (msg.from === 'popup' && msg.subject === 'toggle') {
     toggle();
   }
-  if (msg.from === 'popup' && msg.subject === 'changeTextColors') {
+  if (msg.from === 'popup' && msg.subject === 'TOGGLE_EMOTIONS') {
     const labels = msg?.data || [];
-    labels.reverse();
-    labels.forEach((label) => {
-      document.body.innerHTML = document.body.innerHTML.replace(
-        label.span_text.substring(0, 10),
-        `<span style="color: black; background-color:${chooseColorByEmotion(
-          label.name
-        )}">${label.span_text.substring(0, 10)}</span>`
-      );
+    highLightToggle(labels);
+  }
+  if (msg.from === 'popup' && msg.subject === 'SHOW_EMOTIONS') {
+    const labels = msg?.data || [];
+    highLightToggle(labels, { forceShow: true });
+  }
+  if (msg.from === 'popup' && msg.subject === 'SCROLL_TO_EMOTION') {
+    const labelID = msg.data;
+    document.getElementById(labelID).scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'nearest',
     });
-    // labels.forEach((label) => {
-    //   document.body.textContent = replaceRange(
-    //     document.body.textContent,
-    //     label.span[0],
-    //     label.span[0] + 2,
-    //     `<span style="color: black; background-color:${chooseColorByEmotion(
-    //       label.name
-    //     )}">${label.span_text}</span>`
-    //   );
-    // });
   }
 });
-
-const replaceRange = (str, start, end, substitute) => {
-  const a = 3;
-  return str.substring(0, start) + substitute + str.substring(end);
-};
-
-const chooseColorByEmotion = (emotion) => {
-  switch (emotion) {
-    case 'fear':
-      return 'rgb(0 251 64)';
-    case 'sadness':
-      return '#4e4dff';
-    case 'happiness':
-      return 'rgb(242 61 233)';
-    case 'anger':
-      return 'rgb(255 232 0)';
-    case 'surprise':
-      return 'rgb(1 255 255)';
-  }
-};
 
 function toggle() {
   console.debug('[@@@@ content] toggle');

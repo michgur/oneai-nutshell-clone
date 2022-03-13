@@ -4,7 +4,12 @@ import { useRecoilValue } from 'recoil';
 import Eye from '../../../assets/img/eye.svg';
 import { emotionsLabelsState } from '../lib/atoms';
 import { DATA_LOADING } from '../lib/data-bus';
-import { capitalizeFirstLetter } from '../lib/utils';
+import {
+  capitalizeFirstLetter,
+  labelToLabelID,
+  scrollToEmotion,
+  sendToggleEmotions,
+} from '../lib/utils';
 import { IconButton } from './button';
 
 export function EmotionsSection() {
@@ -15,20 +20,7 @@ export function EmotionsSection() {
         <h2 className="text-lg">Emotions</h2>
         <IconButton
           onClick={() => {
-            chrome.tabs.query(
-              { active: true, currentWindow: true },
-              function (tabs) {
-                chrome.tabs.sendMessage(
-                  tabs[0].id || 0,
-                  {
-                    from: 'popup',
-                    subject: 'changeTextColors',
-                    data: emotionsLabels,
-                  },
-                  function (response) {}
-                );
-              }
-            );
+            sendToggleEmotions(emotionsLabels);
           }}
           dataTip={'Show/hide emotions'}
           dataFor={'emotions-showhide'}
@@ -70,14 +62,17 @@ const EmotionsBar = () => {
     <div className="w-full h-8 bg-darkGray relative">
       {emotionsLabels.map((emotionLabel: any, index: number) => {
         return (
-          <div
+          <button
+            onClick={() => {
+              scrollToEmotion(labelToLabelID(emotionLabel));
+            }}
             key={index}
             className={`w-2 h-8 absolute`}
             style={{
               backgroundColor: labels[emotionLabel?.name].color,
               left: emotionLabel?.span?.[1] * normalLen,
             }}
-          ></div>
+          ></button>
         );
       })}
     </div>

@@ -9,6 +9,7 @@ import {
   urlState,
 } from './atoms';
 import { extractTextFromHtml, fromCache } from './comm';
+import { sendShowEmotions } from './utils';
 
 export const DATA_LOADING = 'DATA_LOADING';
 export const SUMMARY_ERROR = 'We ran into an issue. Sorry for that 😞';
@@ -45,7 +46,11 @@ export default function DataBUS() {
         // debugger;
         setText(result?.output[1]?.text);
         setEntities(result?.output[1]?.labels);
+        const emotionsLabels = result.output[0].labels;
         setEmotionsLabels(result.output[0].labels);
+        setTimeout(() => {
+          sendShowEmotions(emotionsLabels);
+        }, 200);
       }
     };
     console.log(

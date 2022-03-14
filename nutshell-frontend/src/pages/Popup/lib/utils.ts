@@ -33,29 +33,23 @@ export const labelToLabelID = (label: Label) => {
 };
 
 export const sendShowEmotions = (emotionsLabels: Array<Label>) => {
-  sendEmotions(emotionsLabels, 'SHOW_EMOTIONS');
+  sendMessage('SHOW_EMOTIONS', emotionsLabels);
 };
 
 export const sendToggleEmotions = (emotionsLabels: Array<Label>) => {
-  sendEmotions(emotionsLabels, 'TOGGLE_EMOTIONS');
-};
-
-export const sendEmotions = (emotionsLabels: Array<Label>, subject: string) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-    chrome.tabs.sendMessage(tabs[0].id || 0, {
-      from: 'popup',
-      subject: subject,
-      data: emotionsLabels,
-    });
-  });
+  sendMessage('TOGGLE_EMOTIONS', emotionsLabels);
 };
 
 export const scrollToEmotion = (emotionLabelID: string) => {
-  chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+  sendMessage('SCROLL_TO_EMOTION', emotionLabelID);
+};
+
+export const sendMessage = (subject: string, data: any) => {
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     chrome.tabs.sendMessage(tabs[0].id || 0, {
       from: 'popup',
-      subject: 'SCROLL_TO_EMOTION',
-      data: emotionLabelID,
+      subject,
+      data,
     });
   });
 };

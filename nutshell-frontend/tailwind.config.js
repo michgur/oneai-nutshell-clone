@@ -16,6 +16,9 @@ module.exports = {
       buttonHover: '#FFF2',
     },
     extend: {
+      gridTemplateRows: {
+        'auto-1fr': 'auto 1fr',
+      },
       gridTemplateColumns: {
         'auto-1fr': 'auto 1fr',
         '1fr-auto': '1fr auto',

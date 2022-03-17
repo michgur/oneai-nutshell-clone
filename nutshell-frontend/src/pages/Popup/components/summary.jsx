@@ -15,10 +15,7 @@ export function SummarySection() {
         {text === '' ? null : (
           <>
             {text === DATA_LOADING ? (
-              <div>
-                <span role="alert">Loading summary...</span>
-                <Spinner className={'mt-4'} />
-              </div>
+              <Loading />
             ) : // 'Loading'
             text === SUMMARY_ERROR ? (
               <div role={'alert'}>{text}</div>
@@ -31,6 +28,19 @@ export function SummarySection() {
     </>
   );
 }
+
+const Loading = () => {
+  return (
+    <div>
+      <div className="h-full grid items-center grid-rows-auto-1fr">
+        <span role="alert" className="h-fit">
+          Loading summary...
+        </span>
+        <Spinner className={'mt-4'} />
+      </div>
+    </div>
+  );
+};
 
 const replaceRange = (str, start, end, substitute) => {
   return str.substring(0, start) + substitute + str.substring(end);

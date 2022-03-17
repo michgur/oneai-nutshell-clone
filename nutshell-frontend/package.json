@@ -1,6 +1,6 @@
 {
   "name": "OneAI-nutshell",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Read everything faster with this AI-powered summary tool. Nutshell generates summaries and derives insights from articles & emails, allowing you to skim through web pages efficiently.",
   "license": "MIT",
   "repository": {
@@ -8,7 +8,7 @@
     "url": "https://github.com/onezero-team/oneai-nutshell"
   },
   "scripts": {
-    "build": "rimraf build && node utils/build.js && zip",
+    "build": "rimraf build && node utils/build.js && zip -vr build.zip build/ -x \"*.DS_Store\"",
     "start": "node utils/webserver.js",
     "dev": "node utils/webserver.js",
     "zip": "yarn build && rm build.zip && zip build.zip build/*",
@@ -26,6 +26,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0",
+    "react-lottie": "^1.2.3",
     "react-tooltip": "^4.2.21",
     "recoil": "^0.5.2",
     "styled-jsx": "^4.0.1"

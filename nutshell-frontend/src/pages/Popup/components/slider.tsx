@@ -9,11 +9,11 @@ import { useRecoilState } from 'recoil';
 import { summaryPercentState } from '../lib/atoms';
 
 export function SummarySlider() {
-  const [to, setTo] = useState(null);
+  const [to, setTo] = useState<any>(null);
   const [summaryPercent, setSummaryPercent] =
     useRecoilState(summaryPercentState);
 
-  const onChangeCommitted = (event, value) => {
+  const onChangeCommitted = (event: any, value: any) => {
     if (to !== null) {
       clearTimeout(to);
     }
@@ -66,7 +66,7 @@ const OneAISlider = styled(Slider)(({ theme }) => ({
   },
 }));
 
-function OneAISliderThumbComponent(props) {
+function OneAISliderThumbComponent(props: any) {
   const { children, ...other } = props;
   return (
     <SliderThumb key={1} {...other}>

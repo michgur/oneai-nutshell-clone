@@ -3,10 +3,10 @@ import Lottie from 'react-lottie';
 import loader from './loader.json';
 import './spinner.css';
 
-export function Spinner({ className }) {
+export function Spinner({ className }: { className: string }) {
   return (
     <>
-      <LottieLoader className={`spinner-icon ${className}`} />
+      <LottieLoader />
     </>
   );
 }

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { entitiesStateAtom, pageTitleAtom, summaryState } from '../lib/atoms';
 import { DATA_LOADING, SUMMARY_ERROR } from '../lib/data-bus';
+import { Label } from '../lib/interface';
 import { Spinner } from './spinner';
 import { Section } from './wrappers';
 
@@ -42,11 +43,16 @@ const Loading = () => {
   );
 };
 
-const replaceRange = (str, start, end, substitute) => {
+const replaceRange = (
+  str: string,
+  start: number,
+  end: number,
+  substitute: string
+) => {
   return str.substring(0, start) + substitute + str.substring(end);
 };
 
-const highLightSpan = (text, label) => {
+const highLightSpan = (text: string, label: Label) => {
   // debugger;
   return replaceRange(
     text,
@@ -56,7 +62,7 @@ const highLightSpan = (text, label) => {
   );
 };
 
-function SummaryText({ text }) {
+function SummaryText({ text }: { text: string }) {
   const entitites = useRecoilValue(entitiesStateAtom);
   const [textTransformed, setTextTransformed] = React.useState('');
   // debugger;

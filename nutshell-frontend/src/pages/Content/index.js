@@ -1,4 +1,5 @@
 /* eslint-disable default-case */
+import { eventLogger, UserEvent } from '../Popup/lib/event-logger';
 import { highLightToggle } from '../Popup/lib/highlight';
 import { ROOT_APP_ID } from '../Popup/lib/utils';
 
@@ -18,7 +19,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     response(domInfo);
   }
   if (msg.from === 'background' && msg.subject === 'toggle') {
-    const SHOW_APP_ON_INIT = toggle();
+    toggle();
   }
   if (msg.from === 'popup' && msg.subject === 'toggle') {
     toggle();
@@ -53,20 +54,44 @@ function toggle() {
   }
 }
 
-function show() {
+function show({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
   app.style.transform = 'translateX(0)';
+  if (logEvent) {
+    sendEvent(UserEvent.NUTSHELL_OPENED);
+  }
   chrome.storage.sync.set({ SHOW_APP_ON_INIT: true }, function () {
-    console.log('[@@@@ content] set show on init:', true);
+    console.debug('[@@@@ content] set show on init:', true);
   });
 }
 
-function hide() {
+function hide({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
   app.style.transform = 'translateX(100%)';
+  if (logEvent) {
+    sendEvent(UserEvent.NUTSHELL_CLOSED);
+  }
   chrome.storage.sync.set({ SHOW_APP_ON_INIT: false }, function () {
-    console.log('[@@@@ content] set show on init:', false);
+    console.debug('[@@@@ content] set show on init:', false);
   });
+}
+
+const sendEvent = (event) => {
+  chrome.storage.sync.get(['USER_ID'], (items) => {
+    eventLogger(event, { uid: items.USER_ID });
+  });
+};
+
+function getRandomToken() {
+  // E.g. 8 * 32 = 256 bits token
+  var randomPool = new Uint8Array(32);
+  crypto.getRandomValues(randomPool);
+  var hex = '';
+  for (var i = 0; i < randomPool.length; ++i) {
+    hex += randomPool[i].toString(16);
+  }
+  // E.g. db18458e2782b2b77e36769c569e263a53885a9944dd0a861e5064eac16f1a
+  return hex;
 }
 
 (function initApp() {
@@ -97,12 +122,19 @@ function hide() {
   shadowRoot.appendChild(iframe);
   app.id = `${ROOT_APP_ID}`;
   body.prepend(app);
-  chrome.storage.sync.get(['SHOW_APP_ON_INIT'], (result) => {
-    console.log('[content] show on init:', result.SHOW_APP_ON_INIT);
-    if (result.SHOW_APP_ON_INIT) {
-      show();
+  chrome.storage.sync.get(['SHOW_APP_ON_INIT', 'USER_ID'], (items) => {
+    console.debug('[content] show on init:', items.SHOW_APP_ON_INIT);
+    console.debug('[content] user id:', items.USER_ID);
+    if (items.SHOW_APP_ON_INIT) {
+      show({ logEvent: false });
     } else {
-      hide();
+      hide({ logEvent: false });
+    }
+    if (items.USER_ID) {
+      // chrome.storage.sync.remove('USER_ID', function () {}); // for debug
+    } else {
+      const USER_ID = getRandomToken();
+      chrome.storage.sync.set({ USER_ID }, function () {});
     }
   });
   // debugger;

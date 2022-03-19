@@ -67,6 +67,9 @@ function SummaryText({ text }: { text: string }) {
   const [textTransformed, setTextTransformed] = React.useState('');
   // debugger;
   useEffect(() => {
+    if (entitites === undefined) {
+      return;
+    }
     let t = text;
     entitites
       .slice(0, 6)
@@ -80,7 +83,10 @@ function SummaryText({ text }: { text: string }) {
 
   return (
     <>
-      <div dangerouslySetInnerHTML={{ __html: textTransformed }}></div>
+      <div
+        style={{ wordBreak: 'break-word' }}
+        dangerouslySetInnerHTML={{ __html: textTransformed }}
+      ></div>
     </>
   );
 }

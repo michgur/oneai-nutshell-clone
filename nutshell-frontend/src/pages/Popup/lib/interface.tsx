@@ -1,5 +1,5 @@
 export type PipelineOpts = {
-  summaryPercent: number;
+  summaryLength: number;
 };
 
 export type Label = {

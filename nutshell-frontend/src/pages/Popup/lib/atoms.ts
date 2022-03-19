@@ -1,7 +1,7 @@
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 import { DATA_LOADING } from './data-bus';
 
-console.log('[@@@@ atoms localStorage data]', localStorage);
+console.debug('[@@@@ atoms localStorage data]', localStorage);
 
 export const LS_PREFIX = 'OneAI_URL';
 
@@ -20,7 +20,7 @@ const localStorageEffect =
       ulrKey = `${ulrKey}__${summaryPercent}`;
     }
     const savedValue = localStorage.getItem(ulrKey);
-    console.log(
+    console.debug(
       '[@@@@ atoms localStorageEffect], url:',
       ulrKey,
       'savedValue:',
@@ -38,7 +38,7 @@ const localStorageEffect =
       if (key === 'summaryState') {
         ulrKey = `${ulrKey}__${summaryPercent}`;
       }
-      console.log('[@@@@ atoms localStorageEffect], onSet:', newValue);
+      console.debug('[@@@@ atoms localStorageEffect], onSet:', newValue);
       if (newValue) {
         localStorage.setItem(ulrKey, JSON.stringify(newValue));
       }
@@ -47,12 +47,18 @@ const localStorageEffect =
 
 const log = ({ setSelf, onSet, node }: any) => {
   onSet((newState: any) => {
-    console.log('[@@@@ atoms log], atom', node.key, '\nnewState', newState);
+    console.debug('[@@@@ atoms log], atom', node.key, '\nnewState', newState);
   });
 };
 
 const urlState = atom({
   key: 'urlState',
+  default: '',
+  effects_UNSTABLE: [log],
+});
+
+const userIDAtom = atom({
+  key: 'userIDAtom',
   default: '',
   effects_UNSTABLE: [log],
 });
@@ -83,8 +89,21 @@ const emotionsLabelsState = atom({
 
 const summaryPercentState = atom({
   key: 'summaryPercentState',
-  default: 50,
+  default: 150,
   effects_UNSTABLE: [log],
+});
+
+const articleTextAtom = atom({
+  key: 'articleTextAtom',
+  default: '',
+});
+
+const summaryPercentSelector = selector({
+  key: 'summaryPercentSelector',
+  get: ({ get }) => {
+    const percent = get(summaryPercentState);
+    const textLength = 1;
+  },
 });
 
 const htmlDocumentState = atom({
@@ -98,7 +117,9 @@ export {
   entitiesStateAtom,
   emotionsLabelsState,
   urlState,
+  userIDAtom,
   summaryPercentState,
+  articleTextAtom,
   htmlDocumentState,
   pageTitleAtom,
 };

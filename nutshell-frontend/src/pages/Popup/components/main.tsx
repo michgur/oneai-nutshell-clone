@@ -1,6 +1,6 @@
 import React from 'react';
+import ControlsSection from './controls';
 import { EmotionsSection } from './emotions';
-import { SummarySlider } from './slider';
 import { SummarySection } from './summary';
 import { TableOfContents } from './table-of-contents';
 
@@ -16,7 +16,7 @@ function Sections() {
   return (
     <div className="grid text-white">
       <SummarySection />
-      <SummarySlider />
+      <ControlsSection />
       <EmotionsSection />
       <TableOfContents />
     </div>

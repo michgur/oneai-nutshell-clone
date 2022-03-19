@@ -3,23 +3,35 @@ import { RecoilRoot, useSetRecoilState } from 'recoil';
 import Footer from './components/footer';
 import Header from './components/header';
 import Main from './components/main';
-import { htmlDocumentState, pageTitleAtom, urlState } from './lib/atoms';
+import {
+  htmlDocumentState,
+  pageTitleAtom,
+  urlState,
+  userIDAtom,
+} from './lib/atoms';
 import DataBUS from './lib/data-bus';
 import './Popup.css';
 
-const Popup = ({ url }) => {
+const Popup = () => {
   return (
     <RecoilRoot>
       <DataBUS />
-      <App url={url} />
+      <App />
     </RecoilRoot>
   );
 };
 
-function App({ url }) {
+function App() {
   const setHtml = useSetRecoilState(htmlDocumentState);
   const setPageTitle = useSetRecoilState(pageTitleAtom);
   const setURL = useSetRecoilState(urlState);
+  const setUserID = useSetRecoilState(userIDAtom);
+  useEffect(() => {
+    chrome.storage.sync.get(['USER_ID'], function (items) {
+      console.debug('[Popup] user id:', items.USER_ID);
+      setUserID(items.USER_ID);
+    });
+  }, []);
   useEffect(() => {
     chrome.tabs.query(
       {
@@ -28,6 +40,7 @@ function App({ url }) {
       },
       (tabs) => {
         chrome.tabs.sendMessage(
+          //@ts-ignore
           tabs[0].id,
           { from: 'popup', subject: 'DOMInfo' },
           (data) => {

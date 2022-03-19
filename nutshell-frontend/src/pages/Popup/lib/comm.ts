@@ -24,16 +24,16 @@ export async function extractTextFromHtml(
     const textFromHTml = response?.output?.[0]?.text || '';
     const responseEmotions = await extractEmotions(textFromHTml);
     const responseSummarize = await extractSummarize(textFromHTml, opts);
-    console.log('[@@@@ extractOutput] response', response);
-    console.log('[@@@@ responseEmotions]', responseEmotions);
-    console.log('[@@@@ responseSummarize]', responseSummarize);
+    console.debug('[@@@@ extractOutput] response', response);
+    console.debug('[@@@@ responseEmotions]', responseEmotions);
+    console.debug('[@@@@ responseSummarize]', responseSummarize);
     responseEmotions.output = [
       ...responseEmotions.output,
       ...responseSummarize.output,
     ];
     return responseEmotions;
   } catch (error) {
-    console.log('[@@@@ extractOutput] error', error);
+    console.debug('[@@@@ extractOutput] error', error);
     return null;
   }
 }
@@ -50,10 +50,10 @@ export async function extractEmotions(text: string) {
       }),
     });
     const response = await rawResponse.json();
-    console.log('[@@@@ extractEmotions] response', response);
+    console.debug('[@@@@ extractEmotions] response', response);
     return response;
   } catch (error) {
-    console.log('[@@@@ extractEmotions] error', error);
+    console.debug('[@@@@ extractEmotions] error', error);
     return null;
   }
 }
@@ -65,8 +65,15 @@ export async function extractSummarize(text: string, opts: PipelineOpts) {
   //   params: { min_length: length - range, max_length: length + range },
   // };
   // const steps = [{ ...requestSteps.summarize, ...params }];
-  const steps = [{ ...requestSteps.summarize }, { ...requestSteps.entities }];
-  console.log('[@@@@ extractSummarize] steps', steps);
+  const params = {
+    min_length: opts.summaryLength,
+    max_length: opts.summaryLength,
+  };
+  const steps = [
+    { ...requestSteps.summarize, params },
+    { ...requestSteps.entities },
+  ];
+  console.debug('[@@@@ extractSummarize] steps', steps);
   try {
     const rawResponse = await fetch(apiURL, {
       method: 'POST',
@@ -78,10 +85,10 @@ export async function extractSummarize(text: string, opts: PipelineOpts) {
       }),
     });
     const response = await rawResponse.json();
-    console.log('[@@@@ extractSummarize] response', response);
+    console.debug('[@@@@ extractSummarize] response', response);
     return response;
   } catch (error) {
-    console.log('[@@@@ extractSummarize] error', error);
+    console.debug('[@@@@ extractSummarize] error', error);
     return null;
   }
 }
@@ -98,7 +105,7 @@ export async function extractOutput({
     fullURL.searchParams.append('url', url);
     fullURL.searchParams.append('summary_percent', String(summary_percent));
     const cacheRes = fromCache(url, String(summary_percent));
-    console.log('[@@@@ extractOutput] cacheRes', cacheRes);
+    console.debug('[@@@@ extractOutput] cacheRes', cacheRes);
     if (cacheRes !== null) {
       return cacheRes;
     }
@@ -108,10 +115,10 @@ export async function extractOutput({
     }
     const rawResponse = await fetch(fullURL.href, {});
     const response = await rawResponse.json();
-    console.log('[@@@@ extractOutput] response', response);
+    console.debug('[@@@@ extractOutput] response', response);
     return response;
   } catch (error) {
-    console.log('[@@@@ extractOutput] error', error);
+    console.debug('[@@@@ extractOutput] error', error);
     return null;
   }
 }
@@ -129,7 +136,7 @@ export const fromCache = (url: string, summary_percent: string) => {
       `${LS_PREFIX}__${'emotionsLabelsState'}__${url}`
     );
     if (summary && emotions) {
-      console.log('[@@@@ fromCache] summary', summary);
+      console.debug('[@@@@ fromCache] summary', summary);
       result.output[1].text = JSON.parse(summary);
       if (
         result.output[1].text === 'DATA_LOADING' ||
@@ -140,10 +147,10 @@ export const fromCache = (url: string, summary_percent: string) => {
       result.output[0].labels = JSON.parse(emotions);
       return result;
     }
-    console.log('[@@@@ fromCache] summary null');
+    console.debug('[@@@@ fromCache] summary null');
     return null;
   } catch (error) {
-    console.log('[@@@@ fromCache] summary error null');
+    console.debug('[@@@@ fromCache] summary error null');
     return null;
   }
 };

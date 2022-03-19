@@ -29,6 +29,7 @@ module.exports = {
         '2-auto': 'repeat(2, auto)',
         '3-auto': 'repeat(3, auto)',
         '4-auto': 'repeat(4, auto)',
+        '1fr-3-auto': '1fr auto auto auto',
       },
       height: {
         summary: '28rem',

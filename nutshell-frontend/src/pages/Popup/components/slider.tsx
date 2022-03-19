@@ -7,8 +7,10 @@ import 'rc-slider/assets/index.css';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { summaryPercentState } from '../lib/atoms';
+import { useEventLogger, UserEvent } from '../lib/event-logger';
 
 export function SummarySlider() {
+  const { eventLogger } = useEventLogger();
   const [to, setTo] = useState<any>(null);
   const [summaryPercent, setSummaryPercent] =
     useRecoilState(summaryPercentState);
@@ -17,10 +19,11 @@ export function SummarySlider() {
     if (to !== null) {
       clearTimeout(to);
     }
-    console.log(value);
+    console.debug('[moved slider]:', value);
     const to_ = setTimeout(() => {
       setSummaryPercent(value);
     }, 100);
+    eventLogger(UserEvent.MOVED_SLIDER, { summary_slider: value });
     setTo(to_);
   };
 

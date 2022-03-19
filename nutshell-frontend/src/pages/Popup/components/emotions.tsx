@@ -4,6 +4,8 @@ import { useRecoilValue } from 'recoil';
 import Eye from '../../../assets/img/eye.svg';
 import { emotionsLabelsState } from '../lib/atoms';
 import { DATA_LOADING } from '../lib/data-bus';
+import { useEventLogger, UserEvent } from '../lib/event-logger';
+import { Label } from '../lib/interface';
 import {
   capitalizeFirstLetter,
   labelToLabelID,
@@ -13,14 +15,17 @@ import {
 import { IconButton } from './button';
 
 export function EmotionsSection() {
+  const { eventLogger } = useEventLogger();
   const emotionsLabels: any = useRecoilValue(emotionsLabelsState);
+
   return (
-    <div className="mt-10 grid grid-cols-1 gap-y-1">
+    <div className="mt-8 grid grid-cols-1 gap-y-1">
       <div className="grid grid-cols-1fr-auto items-center">
         <h2 className="text-lg">Emotions</h2>
         <IconButton
           onClick={() => {
             sendToggleEmotions(emotionsLabels);
+            eventLogger(UserEvent.CLICKED_EMOTIONS_EYE);
           }}
           dataTip={'Show/hide emotions'}
           dataFor={'emotions-showhide'}
@@ -57,14 +62,17 @@ const EmotionsBar = () => {
   const textLen = emotionsLabels[emotionsLabels.length - 1]?.span?.[1];
   const labels: any = { ...emotionsMap };
   const normalLen = 368 / textLen;
-
+  const { eventLogger } = useEventLogger();
   return (
     <div className="w-full h-8 bg-darkGray relative">
-      {emotionsLabels.map((emotionLabel: any, index: number) => {
+      {emotionsLabels.map((emotionLabel: Label, index: number) => {
         return (
           <button
             onClick={() => {
               scrollToEmotion(labelToLabelID(emotionLabel));
+              eventLogger(UserEvent.CLICKED_EMOTIONS_BAR, {
+                label: emotionLabel,
+              });
             }}
             key={index}
             className={`w-2 h-8 absolute`}

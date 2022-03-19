@@ -20,6 +20,7 @@ export function IconLink({
   dataTip,
   dataFor,
   ariaLabel,
+  onClick = () => {},
 }: any) {
   return (
     <a
@@ -30,6 +31,7 @@ export function IconLink({
       data-tip={dataTip}
       data-for={dataFor}
       aria-label={ariaLabel}
+      onClick={onClick}
     >
       {children}
     </a>

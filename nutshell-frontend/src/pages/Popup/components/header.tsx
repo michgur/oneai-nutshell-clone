@@ -1,9 +1,11 @@
 import React from 'react';
 import close from '../../../assets/img/close.svg';
 import logo from '../../../assets/img/logo.svg';
+import { useEventLogger } from '../lib/event-logger';
 import { IconButton } from './button';
 
 export default function Header() {
+  const { eventLogger } = useEventLogger();
   const closeOnClick = () => {
     // window.close();
     chrome.tabs.query(

@@ -1,6 +1,8 @@
 import { useRecoilValue } from 'recoil';
 import { userIDAtom } from './atoms';
+import { sendBIEvent } from './comm';
 import { Label } from './interface';
+import { requestHeader } from './utils';
 
 enum UserEvent {
   CLICKED_LIKE = 'CLICKED_LIKE',
@@ -24,15 +26,28 @@ interface EventData {
 
 enum EventMessage {}
 
-const eventLogger = (event: UserEvent, data?: EventData) => {
-  console.debug('[event logger] event', event, 'data', data);
+const eventLogger = async (event: UserEvent, data?: EventData) => {
+  const userData = { ...data };
+  delete userData['uid'];
+  const eventData = {
+    type: `NUTSHELL_${event}`,
+    session_id: 'nutshell',
+    user_id: data?.uid,
+    api_key: requestHeader['api-key'],
+    org_id: 'nutshell',
+    data: userData,
+  };
+  try {
+    await sendBIEvent(eventData);
+  } catch (error) {}
+  console.debug('[event logger] event', eventData);
 };
 
 const useEventLogger = () => {
   const userID = useRecoilValue(userIDAtom);
-  const _eventLogger = (event: UserEvent, data?: EventData) => {
+  const _eventLogger = async (event: UserEvent, data?: EventData) => {
     data = { uid: userID, ...data };
-    eventLogger(event, data);
+    await eventLogger(event, data);
   };
   return { eventLogger: _eventLogger };
 };

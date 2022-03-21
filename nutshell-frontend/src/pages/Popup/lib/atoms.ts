@@ -1,5 +1,6 @@
 import { atom, selector } from 'recoil';
 import { DATA_LOADING } from './data-bus';
+import { niceTicks } from './nice-ticks';
 
 console.debug('[@@@@ atoms localStorage data]', localStorage);
 
@@ -98,11 +99,16 @@ const articleTextAtom = atom({
   default: '',
 });
 
-const summaryPercentSelector = selector({
+const summaryPercentRangeSelector = selector({
   key: 'summaryPercentSelector',
   get: ({ get }) => {
     const percent = get(summaryPercentState);
-    const textLength = 1;
+    const text = get(articleTextAtom);
+    if (text.length === 0) {
+      return [10, 250];
+    }
+    const { lower, upper } = niceTicks(10, Math.floor(text.length * 0.2));
+    return [lower, upper];
   },
 });
 
@@ -119,6 +125,7 @@ export {
   urlState,
   userIDAtom,
   summaryPercentState,
+  summaryPercentRangeSelector,
   articleTextAtom,
   htmlDocumentState,
   pageTitleAtom,

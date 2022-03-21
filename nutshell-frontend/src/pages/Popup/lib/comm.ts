@@ -3,8 +3,13 @@ import { SUMMARY_ERROR } from './data-bus';
 import { PipelineOpts } from './interface';
 import { requestHeader, requestSteps } from './utils';
 const apiURL = 'https://api.oneai.com/api/v0/pipeline';
+const apiAnalytics = 'https://api.oneai.com/apps/nutshell';
 
 const mock = false;
+
+export async function sendBIEvent(eventData: any) {
+  return await fetch(apiAnalytics, eventData);
+}
 
 export async function extractTextFromHtml(
   htmlCode: string,
@@ -22,6 +27,7 @@ export async function extractTextFromHtml(
     });
     const response = await rawResponse.json();
     const textFromHTml = response?.output?.[0]?.text || '';
+    opts.setArticleText(textFromHTml);
     const responseEmotions = await extractEmotions(textFromHTml);
     const responseSummarize = await extractSummarize(textFromHTml, opts);
     console.debug('[@@@@ extractOutput] response', response);

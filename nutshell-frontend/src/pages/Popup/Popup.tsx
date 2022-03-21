@@ -10,12 +10,14 @@ import {
   userIDAtom,
 } from './lib/atoms';
 import DataBUS from './lib/data-bus';
+import StateListener from './lib/state-listener';
 import './Popup.css';
 
 const Popup = () => {
   return (
     <RecoilRoot>
       <DataBUS />
+      <StateListener />
       <App />
     </RecoilRoot>
   );

@@ -1,9 +1,16 @@
 import { useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
+  SetterOrUpdater,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from 'recoil';
+import {
+  articleTextAtom,
   emotionsLabelsState,
   entitiesStateAtom,
   htmlDocumentState,
+  openClosedAtom,
   summaryPercentState,
   summaryState,
   urlState,
@@ -23,10 +30,17 @@ export default function DataBUS() {
   const setEmotionsLabels: any = useSetRecoilState(emotionsLabelsState);
   const summaryPercent = useRecoilValue(summaryPercentState);
   const htmlCode: string = useRecoilValue(htmlDocumentState);
+  const setArticleText: SetterOrUpdater<string> =
+    useSetRecoilState(articleTextAtom);
   const url: string = useRecoilValue(urlState);
+  const openClosed = useRecoilValue(openClosedAtom);
   const { eventLogger } = useEventLogger();
   useEffect(() => {
     console.debug('[@@@@ DataBUS] start');
+    if (openClosed === false) {
+      console.debug('[@@@@ DataBUS] app is closed, not loading');
+      return;
+    }
     const loadData = async () => {
       if (url === '') {
         return;
@@ -34,6 +48,7 @@ export default function DataBUS() {
       let result;
       if (true) {
         const cacheRes = fromCache(url, String(summaryPercent));
+        // const cacheRes = null;
         if (cacheRes !== null) {
           result = cacheRes;
         } else {
@@ -43,7 +58,10 @@ export default function DataBUS() {
             htmlCode.length
           );
           eventLogger(UserEvent.SUUMARIZED_ARTICLE, { url: url });
-          result = await extractTextFromHtml(htmlCode, { summaryLength: 50 });
+          result = await extractTextFromHtml(htmlCode, {
+            summaryLength: summaryPercent,
+            setArticleText,
+          });
         }
       } else {
         result = JSON.parse(
@@ -74,7 +92,7 @@ export default function DataBUS() {
     if (htmlCode) {
       loadData();
     }
-  }, [url, summaryPercent, htmlCode]);
+  }, [url, summaryPercent, htmlCode, openClosed]);
 
   return null;
 }

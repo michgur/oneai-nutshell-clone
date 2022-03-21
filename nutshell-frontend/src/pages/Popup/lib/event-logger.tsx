@@ -30,11 +30,9 @@ const eventLogger = async (event: UserEvent, data?: EventData) => {
   const userData = { ...data };
   delete userData['uid'];
   const eventData = {
-    type: `NUTSHELL_${event}`,
-    session_id: 'nutshell',
+    type: event,
     user_id: data?.uid,
     api_key: requestHeader['api-key'],
-    org_id: 'nutshell',
     data: userData,
   };
   try {

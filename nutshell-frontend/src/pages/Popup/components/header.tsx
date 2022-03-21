@@ -1,22 +1,16 @@
 import React from 'react';
 import close from '../../../assets/img/close.svg';
 import logo from '../../../assets/img/logo.svg';
-import { useEventLogger } from '../lib/event-logger';
 import { IconButton } from './button';
 
 export default function Header() {
-  const { eventLogger } = useEventLogger();
   const closeOnClick = () => {
-    // window.close();
-    chrome.tabs.query(
-      { currentWindow: true, active: true },
-      function (tabs: any) {
-        chrome.tabs.sendMessage(tabs[0].id, {
-          from: 'popup',
-          subject: 'toggle',
-        });
-      }
-    );
+    chrome.tabs.query({ currentWindow: true, active: true }, (tabs: any) => {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        from: 'popup',
+        subject: 'toggle',
+      });
+    });
   };
   return (
     <header className="flex flex-row justify-between w-full gap-x-8 p-4">

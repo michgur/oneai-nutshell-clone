@@ -112,6 +112,8 @@ const summaryPercentRangeSelector = selector({
   },
 });
 
+const openClosedAtom = atom({ key: 'openClosedAtom', default: false });
+
 const htmlDocumentState = atom({
   key: 'htmlDocumentState',
   default: '',
@@ -128,5 +130,6 @@ export {
   summaryPercentRangeSelector,
   articleTextAtom,
   htmlDocumentState,
+  openClosedAtom,
   pageTitleAtom,
 };

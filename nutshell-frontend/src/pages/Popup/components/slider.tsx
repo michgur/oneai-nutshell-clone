@@ -5,27 +5,53 @@ import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 import 'rc-slider/assets/index.css';
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { summaryPercentState } from '../lib/atoms';
+import {
+  atom,
+  useRecoilState,
+  useRecoilValue,
+  useSetRecoilState,
+} from 'recoil';
+import { summaryPercentRangeSelector, summaryPercentState } from '../lib/atoms';
 import { useEventLogger, UserEvent } from '../lib/event-logger';
+
+const thumbValueAtom = atom({
+  key: 'thumbValueAtom',
+  default: 150,
+});
 
 export function SummarySlider() {
   const { eventLogger } = useEventLogger();
   const [to, setTo] = useState<any>(null);
+  const summaryPercentRange = useRecoilValue(summaryPercentRangeSelector);
+  const setThumbValue = useSetRecoilState(thumbValueAtom);
   const [summaryPercent, setSummaryPercent] =
     useRecoilState(summaryPercentState);
-
   const onChangeCommitted = (event: any, value: any) => {
     if (to !== null) {
       clearTimeout(to);
     }
-    console.debug('[moved slider]:', value);
+    console.debug('[SummarySlider] moved slider:', value);
     const to_ = setTimeout(() => {
       setSummaryPercent(value);
     }, 100);
     eventLogger(UserEvent.MOVED_SLIDER, { summary_slider: value });
     setTo(to_);
   };
+
+  const handleChange = (event: any) => {
+    console.debug('[SummarySlider] handleChange:', event);
+    setThumbValue(event.target.value);
+  };
+
+  const step = Math.floor(
+    (summaryPercentRange[1] - summaryPercentRange[0]) / 10
+  );
+  console.log(
+    '[SummarySlider] summaryPercentRange:',
+    summaryPercentRange,
+    'step:',
+    step
+  );
 
   return (
     <div className="px-4">
@@ -34,6 +60,10 @@ export function SummarySlider() {
         defaultValue={summaryPercent}
         // value={summaryPercent}
         onChangeCommitted={onChangeCommitted}
+        onChange={handleChange}
+        step={step}
+        min={summaryPercentRange[0]}
+        max={summaryPercentRange[1]}
       />
     </div>
   );
@@ -70,11 +100,12 @@ const OneAISlider = styled(Slider)(({ theme }) => ({
 }));
 
 function OneAISliderThumbComponent(props: any) {
+  const thumbValue = useRecoilValue(thumbValueAtom);
   const { children, ...other } = props;
   return (
     <SliderThumb key={1} {...other}>
       {children}
-      <span>{props.style.left}</span>
+      <span>{thumbValue}</span>
     </SliderThumb>
   );
 }

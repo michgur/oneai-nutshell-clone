@@ -3,7 +3,7 @@ import { SUMMARY_ERROR } from './data-bus';
 import { PipelineOpts } from './interface';
 import { requestHeader, requestSteps } from './utils';
 const apiURL = 'https://api.oneai.com/api/v0/pipeline';
-const apiAnalytics = 'https://api.oneai.com/apps/nutshell';
+const apiAnalytics = 'https://api.oneai.com/analytics/apps/nutshell';
 
 const mock = false;
 

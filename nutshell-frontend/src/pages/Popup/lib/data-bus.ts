@@ -3,7 +3,7 @@ import {
   SetterOrUpdater,
   useRecoilState,
   useRecoilValue,
-  useSetRecoilState
+  useSetRecoilState,
 } from 'recoil';
 import {
   articleTextAtom,
@@ -14,9 +14,9 @@ import {
   openClosedAtom,
   summaryPercentState,
   summaryState,
-  urlState
+  urlState,
 } from './atoms';
-import { extractTextFromHtml } from './comm';
+import { extractTextFromHtml, fromCache } from './comm';
 import { useEventLogger, UserEvent } from './event-logger';
 import { sendShowEmotions } from './utils';
 

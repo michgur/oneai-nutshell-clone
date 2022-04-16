@@ -41,6 +41,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
       inline: 'nearest',
     });
   }
+  return true;
 });
 
 function toggle() {
@@ -57,7 +58,8 @@ function toggle() {
 
 function show({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
-  app.style.transform = 'translateX(0)';
+  // app.style.transform = 'translateX(0)';
+  app.style.setProperty('transform', 'translateX(0)', 'important');
   if (logEvent) {
     sendEvent(UserEvent.NUTSHELL_OPENED);
   }
@@ -68,7 +70,9 @@ function show({ logEvent = true } = {}) {
 
 function hide({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
-  app.style.transform = 'translateX(100%)';
+  // app.style.transform = 'translateX(100%)';
+  app.style.setProperty('transform', 'translateX(100%)', 'important');
+
   if (logEvent) {
     sendEvent(UserEvent.NUTSHELL_CLOSED);
   }
@@ -105,20 +109,20 @@ function getRandomToken() {
   iframe.src = chrome.runtime.getURL('popup.html');
   iframe.setAttribute('frameborder', '0');
   iframe.style.cssText = ` 
-    width: 503px;
-    height: 100%;
-    border-radius: 5px;
-    box-shadow: rgb(0 0 0 / 15%) 0px 5px 15px 0px;
+    width: 503px !important;
+    height: 100% !important;
+    border-radius: 5px !important;
+    box-shadow: rgb(0 0 0 / 15%) 0px 5px 15px 0px !important;
   `;
   app.style.cssText = ` 
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    padding: 12px 12px 12px 0px;
-    z-index: 1000000000000000000;
-    transition: transform 0.5s;
-    transform: translateX(100%)
+    position: fixed !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    padding: 12px 12px 12px 0px !important;
+    z-index: 1000000000000000000 !important;
+    transition: transform 0.5s !important;
+    transform: translateX(100%) !important;
   `;
   shadowRoot.appendChild(iframe);
   app.id = `${ROOT_APP_ID}`;

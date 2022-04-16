@@ -13,6 +13,7 @@ export default function StateListener() {
           changes.SHOW_APP_ON_INIT.newValue
         );
       }
+      return true;
     });
     chrome.storage.sync.get(['SHOW_APP_ON_INIT'], (items) => {
       setOpenClosed(items.SHOW_APP_ON_INIT);

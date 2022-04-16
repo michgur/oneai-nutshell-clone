@@ -78,7 +78,12 @@ const highLightLabel = (
 ) => {
   // debugger;
   const searchRes = fuse.search(label.span_text);
-  const index = searchRes[0].refIndex;
+  let index;
+  try {
+    index = searchRes[0].refIndex;
+  } catch (error) {
+    return;
+  }
   const words = label.span_text.split(' ');
   const text = textNodes[index].textContent;
   const textArr = text.split(' ');

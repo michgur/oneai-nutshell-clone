@@ -1,6 +1,7 @@
 export type PipelineOpts = {
   summaryLength: number;
   setArticleText: any;
+  setExtractHTML: any;
 };
 
 export type Label = {

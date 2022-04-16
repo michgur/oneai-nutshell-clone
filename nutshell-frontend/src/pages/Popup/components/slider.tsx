@@ -76,10 +76,11 @@ const OneAISlider = styled(Slider)(({ theme }) => ({
   '& .MuiSlider-thumb': {
     height: 30,
     width: 30,
-    backgroundColor: '#4D4DFF',
+    backgroundColor: '#f23de9',
     color: 'white',
     fontSize: '10px',
     opacity: 1,
+    boxShadow: '0 0 0 8px rgba(242, 61, 233, 0.2)',
     // border: '1px solid currentColor',
     '&:hover': {
       boxShadow: '0 0 0 8px rgba(58, 133, 137, 0.16)',
@@ -95,7 +96,8 @@ const OneAISlider = styled(Slider)(({ theme }) => ({
   '& .MuiSlider-rail': {
     color: '#f23de9',
     opacity: 1,
-    height: 9,
+    height: 8,
+    borderRadius: 0,
   },
 }));
 

@@ -1,14 +1,18 @@
 import { LS_PREFIX } from './atoms';
 import { SUMMARY_ERROR } from './data-bus';
 import { PipelineOpts } from './interface';
-import { requestHeader, requestSteps } from './utils';
+import { requestHeader, requestSteps, sendAddIDToElements } from './utils';
 const apiURL = 'https://api.oneai.com/api/v0/pipeline';
 const apiAnalytics = 'https://api.oneai.com/analytics/apps/nutshell';
 
 const mock = false;
 
 export async function sendBIEvent(eventData: any) {
-  return await fetch(apiAnalytics, eventData);
+  return await fetch(apiAnalytics, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(eventData),
+  });
 }
 
 export async function extractTextFromHtml(
@@ -27,6 +31,13 @@ export async function extractTextFromHtml(
     });
     const response = await rawResponse.json();
     const textFromHTml = response?.output?.[0]?.text || '';
+    const subheadings =
+      response?.output?.[0]?.labels?.filter((label: any) => {
+        return label.name === 'subheading';
+      }) || [];
+    sendAddIDToElements(subheadings);
+
+    opts.setExtractHTML(response?.output?.[0]);
     opts.setArticleText(textFromHTml);
     const responseEmotions = await extractEmotions(textFromHTml);
     const responseSummarize = await extractSummarize(textFromHTml, opts);

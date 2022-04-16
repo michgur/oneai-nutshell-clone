@@ -27,20 +27,28 @@ export const requestSteps = {
   entities: { skill: 'entities' },
 };
 
-export const labelToLabelID = (label: Label) => {
+export const emotionLabelToLabelID = (label: Label) => {
   return `oneai__emotion__${label.span[0]}_${label.span[1]}`;
+};
+
+export const subheadingLabelToLabelID = (label: Label) => {
+  return `oneai__subheading__${label.span[0]}_${label.span[1]}`;
 };
 
 export const sendShowEmotions = (emotionsLabels: Array<Label>) => {
   sendMessage('SHOW_EMOTIONS', emotionsLabels);
 };
 
+export const sendAddIDToElements = (labels: Array<Label>) => {
+  sendMessage('ADD_ID_TO_ELEMENTS', labels);
+};
+
 export const sendToggleEmotions = (emotionsLabels: Array<Label>) => {
   sendMessage('TOGGLE_EMOTIONS', emotionsLabels);
 };
 
-export const scrollToEmotion = (emotionLabelID: string) => {
-  sendMessage('SCROLL_TO_EMOTION', emotionLabelID);
+export const scrollToElement = (elementID: string) => {
+  sendMessage('SCROLL_TO_ELEMENT', elementID);
 };
 
 export const sendMessage = (subject: string, data: any) => {

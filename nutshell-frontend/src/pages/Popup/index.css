@@ -4,6 +4,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@100;300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600&display=swap');
 
 html {
   @apply text-light;
@@ -12,7 +13,7 @@ html {
 }
 
 body {
-  width: 400px;
+  width: 500px;
   min-height: 600px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -28,6 +29,9 @@ body {
 }
 .font-mono {
   font-family: 'IBM Plex Mono', monospace;
+}
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
 }
 .font-roboto {
   font-family: 'Roboto', sans-serif;
@@ -48,4 +52,8 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #00ffff;
+}
+
+.ReactCollapse--collapse {
+  transition: height 300ms;
 }

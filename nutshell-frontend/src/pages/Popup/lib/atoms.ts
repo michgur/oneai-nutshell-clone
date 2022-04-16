@@ -99,6 +99,11 @@ const articleTextAtom = atom({
   default: '',
 });
 
+const extractHTMLAtom = atom<any>({
+  key: 'extractHTMLAtom',
+  default: {},
+});
+
 const summaryPercentRangeSelector = selector({
   key: 'summaryPercentSelector',
   get: ({ get }) => {
@@ -129,6 +134,7 @@ export {
   summaryPercentState,
   summaryPercentRangeSelector,
   articleTextAtom,
+  extractHTMLAtom,
   htmlDocumentState,
   openClosedAtom,
   pageTitleAtom,

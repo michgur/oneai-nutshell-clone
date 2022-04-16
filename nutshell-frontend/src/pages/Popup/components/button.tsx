@@ -17,7 +17,7 @@ export function IconButton({
 }: any) {
   return (
     <button
-      className={`p-2 w-fit rounded-full ease-in-out transition duration-300 hover:bg-buttonHover ${className}`}
+      className={`p-2 w-fit rounded-full ease-in-out transition duration-300 hover:bg-buttonHover grid items-center justify-items-center ${className}`}
       onClick={onClick}
       data-tip={dataTip}
       data-for={dataFor}

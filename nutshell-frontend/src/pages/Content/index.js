@@ -1,6 +1,6 @@
 /* eslint-disable default-case */
 import { eventLogger, UserEvent } from '../Popup/lib/event-logger';
-import { highLightToggle } from '../Popup/lib/highlight';
+import { addIDToElements, highLightToggle } from '../Popup/lib/highlight';
 import { ROOT_APP_ID } from '../Popup/lib/utils';
 
 console.debug('[@@@@ content]', 'start');
@@ -25,16 +25,17 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
     toggle();
   }
   if (msg.from === 'popup' && msg.subject === 'TOGGLE_EMOTIONS') {
-    const labels = msg?.data || [];
-    highLightToggle(labels);
+    highLightToggle(msg?.data || []);
   }
   if (msg.from === 'popup' && msg.subject === 'SHOW_EMOTIONS') {
-    const labels = msg?.data || [];
-    highLightToggle(labels, { forceShow: true });
+    highLightToggle(msg?.data || [], { forceShow: true });
   }
-  if (msg.from === 'popup' && msg.subject === 'SCROLL_TO_EMOTION') {
+  if (msg.from === 'popup' && msg.subject === 'ADD_ID_TO_ELEMENTS') {
+    addIDToElements(msg?.data || []);
+  }
+  if (msg.from === 'popup' && msg.subject === 'SCROLL_TO_ELEMENT') {
     const labelID = msg.data;
-    document.getElementById(labelID).scrollIntoView({
+    document.getElementById(labelID)?.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
       inline: 'nearest',
@@ -104,7 +105,7 @@ function getRandomToken() {
   iframe.src = chrome.runtime.getURL('popup.html');
   iframe.setAttribute('frameborder', '0');
   iframe.style.cssText = ` 
-    width: 403px;
+    width: 503px;
     height: 100%;
     border-radius: 5px;
     box-shadow: rgb(0 0 0 / 15%) 0px 5px 15px 0px;

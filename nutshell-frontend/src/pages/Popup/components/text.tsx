@@ -2,8 +2,6 @@ import React from 'react';
 
 export function SectionHeader({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="font-lg text-light bg-title rounded py-2 px-4 w-fit">
-      {children}
-    </h2>
+    <h2 className="text-lg w-fit font-poppins font-semibold">{children}</h2>
   );
 }

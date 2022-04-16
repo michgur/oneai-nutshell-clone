@@ -1,9 +1,13 @@
 import Fuse from 'fuse.js';
 import { Label } from './interface';
-import { labelToLabelID } from './utils';
+import { emotionLabelToLabelID, subheadingLabelToLabelID } from './utils';
 
 type Opts = {
   forceShow: boolean;
+};
+
+export const addIDToElements = (labels: Array<Label>) => {
+  return elementLabelsAction(labels, addIDToElement);
 };
 
 export const highLightToggle = (
@@ -24,19 +28,46 @@ export const highLightToggle = (
     }
     return;
   }
-  const textNodes = textNodesUnder(document.body);
-  const options = {
-    includeScore: true,
-  };
 
+  elementLabelsAction(labels, highLightLabel);
+};
+
+const elementLabelsAction = (labels: Array<Label>, action: any) => {
+  const textNodes = textNodesUnder(document.body);
   const fuse = new Fuse(
     textNodes.map((tn) => tn.textContent),
-    options
+    { includeScore: true }
   );
   for (let index = 0; index < labels.length; index++) {
     const label = labels[index];
-    highLightLabel(label, index, textNodes, fuse);
+    action(label, index, textNodes, fuse);
   }
+};
+
+const addIDToElement = (
+  label: Label,
+  labelIndex: number,
+  textNodes: Array<any>,
+  fuse: any
+) => {
+  const searchRes = fuse.search(label.span_text);
+  // debugger;
+  let index;
+  try {
+    index = searchRes[0].refIndex;
+  } catch (error) {
+    return;
+  }
+  const words = label.span_text.split(' ');
+  const text = textNodes[index].textContent;
+  const textArr = text.split(' ');
+  const res = findCommon(textArr, words);
+  textNodes[index].parentElement.innerHTML = textNodes[
+    index
+  ].parentElement.innerHTML.replace(
+    res,
+    `<span id="${subheadingLabelToLabelID(label)}">${res}</span>`
+  );
 };
 
 const highLightLabel = (
@@ -45,6 +76,7 @@ const highLightLabel = (
   textNodes: Array<any>,
   fuse: any
 ) => {
+  // debugger;
   const searchRes = fuse.search(label.span_text);
   const index = searchRes[0].refIndex;
   const words = label.span_text.split(' ');
@@ -58,7 +90,9 @@ const highLightLabel = (
     res,
     `<span class="oneai__emotion oneai__emotion__${
       label.name
-    } oneai__emotion__active" id="${labelToLabelID(label)}">${res}</span>`
+    } oneai__emotion__active" id="${emotionLabelToLabelID(
+      label
+    )}">${res}</span>`
   );
 };
 

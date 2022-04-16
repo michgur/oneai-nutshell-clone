@@ -3,19 +3,20 @@ import {
   SetterOrUpdater,
   useRecoilState,
   useRecoilValue,
-  useSetRecoilState,
+  useSetRecoilState
 } from 'recoil';
 import {
   articleTextAtom,
   emotionsLabelsState,
   entitiesStateAtom,
+  extractHTMLAtom,
   htmlDocumentState,
   openClosedAtom,
   summaryPercentState,
   summaryState,
-  urlState,
+  urlState
 } from './atoms';
-import { extractTextFromHtml, fromCache } from './comm';
+import { extractTextFromHtml } from './comm';
 import { useEventLogger, UserEvent } from './event-logger';
 import { sendShowEmotions } from './utils';
 
@@ -32,6 +33,8 @@ export default function DataBUS() {
   const htmlCode: string = useRecoilValue(htmlDocumentState);
   const setArticleText: SetterOrUpdater<string> =
     useSetRecoilState(articleTextAtom);
+  const setExtractHTML: SetterOrUpdater<string> =
+    useSetRecoilState(extractHTMLAtom);
   const url: string = useRecoilValue(urlState);
   const openClosed = useRecoilValue(openClosedAtom);
   const { eventLogger } = useEventLogger();
@@ -61,6 +64,7 @@ export default function DataBUS() {
           result = await extractTextFromHtml(htmlCode, {
             summaryLength: summaryPercent,
             setArticleText,
+            setExtractHTML,
           });
         }
       } else {

@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "One AI Nutshell",
   "description": "Read everything faster with this AI-powered summary tool. Nutshell generates summaries and derives insights from articles.",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "options_page": "options.html",
   "background": {
     "service_worker": "background.bundle.js"

@@ -16,7 +16,8 @@ import {
   summaryState,
   urlState,
 } from './atoms';
-import { extractTextFromHtml, fromCache } from './comm';
+import { extractTextFromHtml } from './comm';
+// import { fromCache } from './comm';
 import { useEventLogger, UserEvent } from './event-logger';
 import { sendShowEmotions } from './utils';
 
@@ -50,8 +51,8 @@ export default function DataBUS() {
       }
       let result;
       if (true) {
-        const cacheRes = fromCache(url, String(summaryPercent));
-        // const cacheRes = null;
+        // const cacheRes = fromCache(url, String(summaryPercent));
+        const cacheRes = null;
         if (cacheRes !== null) {
           result = cacheRes;
         } else {

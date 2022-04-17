@@ -61,7 +61,7 @@ export default function DataBUS() {
             '[@@@@ DataBUS] extractTextFromHtm htmlCode.length',
             htmlCode.length
           );
-          eventLogger(UserEvent.SUUMARIZED_ARTICLE, { url: url });
+          eventLogger(UserEvent.SUMMARIZED_ARTICLE, { url: url });
           result = await extractTextFromHtml(htmlCode, {
             summaryLength: summaryPercent,
             setArticleText,

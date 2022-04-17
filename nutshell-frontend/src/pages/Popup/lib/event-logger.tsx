@@ -11,11 +11,12 @@ enum UserEvent {
   CLICKED_EMOTIONS_BAR = 'CLICKED_EMOTIONS_BAR',
   CLICKED_EMOTIONS_EYE = 'CLICKED_EMOTIONS_EYE',
   CLICKED_POWERED_BY = 'CLICKED_POWERED_BY',
-  SUUMARIZED_ARTICLE = 'SUUMARIZED_ARTICLE',
+  SUMMARIZED_ARTICLE = 'SUMMARIZED_ARTICLE',
   MOVED_SLIDER = 'MOVED_SLIDER',
   NUTSHELL_OPENED = 'NUTSHELL_OPENED',
   NUTSHELL_CLOSED = 'NUTSHELL_CLOSED',
 }
+
 interface EventData {
   uid?: string | undefined;
   msg?: EventMessage | undefined;
@@ -37,7 +38,10 @@ const eventLogger = async (event: UserEvent, data?: EventData) => {
   };
   try {
     await sendBIEvent(eventData);
-  } catch (error) {}
+  } catch (error) {
+    console.error('[event logger] error', error);
+  }
+
   console.debug('[event logger] event', eventData);
 };
 

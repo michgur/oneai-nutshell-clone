@@ -240,25 +240,25 @@ export const EmptyEmotionsIcons = () => {
         <path
           d="M25.5 22C25.5 20.2368 26.8039 18.7781 28.5 18.5354V43C28.5 44.7632 27.1961 46.2219 25.5 46.4646V22Z"
           fill="#F9E202"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
           stroke="#F9E202"
         />
         <path
           d="M162.5 22C162.5 20.2368 163.804 18.7781 165.5 18.5354V43C165.5 44.7632 164.196 46.2219 162.5 46.4646V22Z"
           fill="#F9E202"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
           stroke="#F9E202"
         />
         <path
           d="M372.5 23C372.5 20.5147 374.515 18.5 377 18.5H379.5V42C379.5 44.4853 377.485 46.5 375 46.5H372.5V23Z"
           fill="#F9E202"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
           stroke="#F9E202"
         />
         <path
           d="M294.5 22C294.5 20.067 296.067 18.5 298 18.5H311.5V43C311.5 44.933 309.933 46.5 308 46.5H294.5V22Z"
           fill="#F9E202"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
           stroke="#F9E202"
         />
         <path
@@ -274,25 +274,25 @@ export const EmptyEmotionsIcons = () => {
         <path
           d="M321.5 22C321.5 20.2368 322.804 18.7781 324.5 18.5354V43C324.5 44.7632 323.196 46.2219 321.5 46.4646V22Z"
           fill="#E73CDF"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
           stroke="#E73CDF"
         />
         <path
           d="M51.5 22C51.5 20.067 53.067 18.5 55 18.5H70.5V43C70.5 44.933 68.933 46.5 67 46.5H51.5V22Z"
           fill="#E73CDF"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
           stroke="#E73CDF"
         />
         <path
           d="M101.5 22C101.5 20.067 103.067 18.5 105 18.5H122.5V43C122.5 44.933 120.933 46.5 119 46.5H101.5V22Z"
           fill="#01FEFE"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
           stroke="#01FEFE"
         />
         <path
           d="M202.5 22C202.5 20.067 204.067 18.5 206 18.5H219.5V43C219.5 44.933 217.933 46.5 216 46.5H202.5V22Z"
           fill="#E73CDF"
-          fill-opacity="0.5"
+          fillOpacity="0.5"
           stroke="#E73CDF"
         />
         <path
@@ -310,7 +310,7 @@ export const EmptyEmotionsIcons = () => {
           width="417"
           height="65"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
           <feFlood flood-opacity="0" result="BackgroundImageFix" />
           <feBlend

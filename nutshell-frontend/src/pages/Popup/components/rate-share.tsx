@@ -1,8 +1,14 @@
-import React from 'react';
+import { default as React } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ReactTooltip from 'react-tooltip';
+import { useRecoilValue } from 'recoil';
+import { summaryState } from '../lib/atoms';
+import { DATA_LOADING } from '../lib/data-bus';
 import { useEventLogger, UserEvent } from '../lib/event-logger';
 import { IconButton } from './button';
 import { ShareIcon, ThubsDownIcon, ThubsUpIcon } from './icons';
+import { useShare, useShareKey } from './share';
 
 export default function RateShareSection() {
   return (
@@ -63,12 +69,35 @@ const ThumbsDown = () => {
 
 const Share = () => {
   const { eventLogger } = useEventLogger();
+  const { shareCurrent } = useShare();
+  const summary = useRecoilValue(summaryState);
+  const shareKey = useShareKey();
+
+  const onClick = async () => {
+    eventLogger(UserEvent.CLICKED_SHARE);
+    const res = await shareCurrent();
+    if (summary === DATA_LOADING) {
+      toast(`Please wait for summary to load`);
+    }
+
+    if (res?.[shareKey]) {
+      const link = `https://oneai.com/nutshell-share/${res?.[shareKey]}`;
+      navigator.clipboard
+        .writeText(link)
+        .then(() => {
+          toast('Link was copied to clipboard!');
+        })
+        .catch((err) => {
+          console.debug('[Share] copy to clipboard error:', err);
+          toast(`Here is your link: ${link}`);
+        });
+    }
+  };
+
   return (
     <>
       <IconButton
-        onClick={() => {
-          eventLogger(UserEvent.CLICKED_SHARE);
-        }}
+        onClick={onClick}
         dataTip={'Share'}
         dataFor={'controls-share'}
         ariaLabel={'share'}
@@ -79,6 +108,16 @@ const Share = () => {
         <ShareIcon />
       </IconButton>
       <ReactTooltip id={'controls-share'} />
+      <ToastContainer
+        toastClassName={'!bg-blue !text-white'}
+        position="bottom-left"
+        autoClose={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+      />
     </>
   );
 };

@@ -1,3 +1,5 @@
+import { useRecoilValue } from 'recoil';
+import { extractHTMLAtom, pageTitleAtom } from './atoms';
 import { Label } from './interface';
 
 export function capitalizeFirstLetter(str: string) {
@@ -59,4 +61,31 @@ export const sendMessage = (subject: string, data: any) => {
       data,
     });
   });
+};
+
+export const useTitle = () => {
+  const extractHTMLContent = useRecoilValue(extractHTMLAtom);
+  const titleH1 = useRecoilValue(pageTitleAtom);
+  let titleOneAI;
+  try {
+    titleOneAI = extractHTMLContent?.labels?.filter((label: any) => {
+      return label.name === 'title';
+    })[0];
+  } catch (error) {
+    titleOneAI = undefined;
+  }
+  const title =
+    titleOneAI !== undefined && titleOneAI.value !== ''
+      ? titleOneAI.value
+      : titleH1;
+  return title;
+};
+
+export const useSubheadings = () => {
+  const extractHTMLContent = useRecoilValue(extractHTMLAtom);
+  const subheadings =
+    extractHTMLContent?.labels?.filter((label: any) => {
+      return label.name === 'subheading';
+    }) || [];
+  return subheadings;
 };

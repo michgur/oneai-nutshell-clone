@@ -8,11 +8,15 @@ const apiAnalytics = 'https://api.oneai.com/analytics/apps/nutshell';
 const mock = false;
 
 export async function sendBIEvent(eventData: any) {
-  return await fetch(apiAnalytics, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(eventData),
-  });
+  try {
+    await fetch(apiAnalytics, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(eventData),
+    });
+  } catch (error) {
+    console.error('[sendBIEvent] error:', error);
+  }
 }
 
 export async function extractTextFromHtml(

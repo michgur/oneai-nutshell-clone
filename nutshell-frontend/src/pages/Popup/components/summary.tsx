@@ -1,37 +1,19 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import {
-  entitiesStateAtom,
-  extractHTMLAtom,
-  pageTitleAtom,
-  summaryState,
-} from '../lib/atoms';
+import { entitiesStateAtom, summaryState } from '../lib/atoms';
 import { DATA_LOADING, SUMMARY_ERROR } from '../lib/data-bus';
 import { Label } from '../lib/interface';
+import { useTitle } from '../lib/utils';
 import { Spinner } from './spinner';
 import { Section } from './wrappers';
 
 export function SummarySection() {
   const text = useRecoilValue(summaryState);
-  const title = useRecoilValue(pageTitleAtom);
-  const extractHTMLContent = useRecoilValue(extractHTMLAtom);
-  let titleOneAI;
-  try {
-    titleOneAI = extractHTMLContent?.labels?.filter((label: any) => {
-      return label.name === 'title';
-    })[0];
-  } catch (error) {
-    titleOneAI = undefined;
-  }
-  const titleShow =
-    titleOneAI !== undefined && titleOneAI.value !== ''
-      ? titleOneAI.value
-      : title;
+  const title = useTitle();
+
   return (
     <>
-      <h1 className="text-lg pb-2 pt-4 font-poppins font-semibold">
-        {titleShow}
-      </h1>
+      <h1 className="text-lg pb-2 pt-4 font-poppins font-semibold">{title}</h1>
       <Section className="font-poppins text-md mb-4 leading-6 h-summary overflow-auto">
         {text === '' ? null : (
           <>

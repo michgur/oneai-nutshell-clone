@@ -12,7 +12,7 @@ import { DATA_LOADING } from '../lib/data-bus';
 import { useSubheadings, useTitle } from '../lib/utils';
 
 // const docURL = 'http://localhost:3000/api/nutshell-share';
-const docURL = 'https://oneai.com/api/nutshell-share';
+const docURL = 'https://oneai-website.herokuapp.com/api/nutshell-share';
 
 const createDoc = async (data: any) => {
   try {
@@ -20,8 +20,13 @@ const createDoc = async (data: any) => {
       method: 'POST',
       body: JSON.stringify(data),
     });
-    return await response.json();
-  } catch (error) {}
+    if (response.status === 500) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 export const useShareKey = () => {
@@ -40,13 +45,13 @@ export const useShare = () => {
   const [share, setShare] = useRecoilState(shareAtom);
   const shareKey = useShareKey();
   const shareCurrent = async () => {
-    console.debug('[useShare] summary:', summary);
+    console.debug('[shareCurrent] summary:', summary);
     if (summary === DATA_LOADING) {
       return;
     }
     const id = (Math.random() + 1).toString(36).substring(5);
     if (shareKey in share) {
-      return;
+      return share[shareKey];
     }
     const data = {
       id,
@@ -57,7 +62,10 @@ export const useShare = () => {
       extractHTMLLabels,
       entitiesLabels,
     };
-    await createDoc(data);
+    const res = await createDoc(data);
+    if (res === false) {
+      return false;
+    }
     setShare((prev: any) => {
       return { ...prev, [shareKey]: id };
     });

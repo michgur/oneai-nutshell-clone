@@ -75,9 +75,14 @@ const Share = () => {
 
   const onClick = async () => {
     eventLogger(UserEvent.CLICKED_SHARE);
-    const res = await shareCurrent();
     if (summary === DATA_LOADING) {
       toast(`Please wait for summary to load`);
+      return;
+    }
+    const res = await shareCurrent();
+    if (res === false) {
+      toast(`Sorry, something went wrong, We're checking!`);
+      return;
     }
 
     if (res?.[shareKey]) {

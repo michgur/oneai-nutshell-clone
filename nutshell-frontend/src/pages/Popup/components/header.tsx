@@ -23,7 +23,7 @@ export default function Header() {
       <IconButton
         onClick={closeOnClick}
         ariaLabel="Close One AI nutshell"
-        className={'text-cyan'}
+        className={'text-cyan hover:text-blue'}
       >
         <CloseButtonIcon />
       </IconButton>

@@ -3,9 +3,10 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ReactTooltip from 'react-tooltip';
 import { useRecoilValue } from 'recoil';
-import { summaryState } from '../lib/atoms';
+import { LS_PREFIX, summaryState } from '../lib/atoms';
 import { DATA_LOADING } from '../lib/data-bus';
 import { useEventLogger, UserEvent } from '../lib/event-logger';
+import { useLocalStorage } from '../lib/hooks';
 import { IconButton } from './button';
 import { ShareIcon, ThubsDownIcon, ThubsUpIcon } from './icons';
 import { useShare, useShareKey } from './share';
@@ -24,19 +25,22 @@ export default function RateShareSection() {
 }
 
 const ThumbsUp = () => {
+  const url = localStorage.getItem(LS_PREFIX);
+  const [clicked, setClicked] = useLocalStorage(`${url}__clicked_like`, false);
   const { eventLogger } = useEventLogger();
   return (
     <>
       <IconButton
         onClick={() => {
           eventLogger(UserEvent.CLICKED_LIKE);
+          setClicked(!clicked);
         }}
         dataTip={'Like'}
         dataFor={'controls-like'}
         ariaLabel={'Like'}
-        className={
-          '!bg-darkGray !rounded-none !p-3 !w-16 !h-16 text-blue hover:opacity-50 duration-300'
-        }
+        className={`!bg-darkGray !rounded-md !p-3 !w-16 !h-16 text-blue hover:text-cyan duration-300 ${
+          clicked ? '!text-white !bg-blue' : ''
+        }`}
       >
         <ThubsUpIcon />
       </IconButton>
@@ -47,18 +51,24 @@ const ThumbsUp = () => {
 
 const ThumbsDown = () => {
   const { eventLogger } = useEventLogger();
+  const url = localStorage.getItem(LS_PREFIX);
+  const [clicked, setClicked] = useLocalStorage(
+    `${url}__clicked_dislike`,
+    false
+  );
   return (
     <>
       <IconButton
         onClick={() => {
           eventLogger(UserEvent.CLICKED_DISLIKE);
+          setClicked(!clicked);
         }}
         dataTip={'Dislike'}
         dataFor={'controls-dislike'}
         ariaLabel={'Dislike'}
-        className={
-          '!bg-darkGray !rounded-none !p-3 !w-16 !h-16 text-blue hover:opacity-50 duration-300'
-        }
+        className={`!bg-darkGray !rounded-md !p-3 !w-16 !h-16 text-blue hover:text-cyan duration-300 ${
+          clicked ? '!text-white !bg-blue' : ''
+        }`}
       >
         <ThubsDownIcon />
       </IconButton>
@@ -85,6 +95,16 @@ const Share = () => {
       return;
     }
 
+    const Msg = ({ closeToast, toastProps, link }: any) => (
+      <div>
+        <span>Here is your link:</span>
+        <br />
+        <a href={link} target="_blank">
+          {link}
+        </a>
+      </div>
+    );
+
     if (res?.[shareKey]) {
       const link = `https://oneai.com/nutshell-share/${res?.[shareKey]}`;
       navigator.clipboard
@@ -94,7 +114,7 @@ const Share = () => {
         })
         .catch((err) => {
           console.debug('[Share] copy to clipboard error:', err);
-          toast(`Here is your link: ${link}`);
+          toast(<Msg link={link} />);
         });
     }
   };
@@ -107,14 +127,14 @@ const Share = () => {
         dataFor={'controls-share'}
         ariaLabel={'share'}
         className={
-          '!bg-blue !rounded-none !p-3 !w-16 !h-16 text-white hover:opacity-50 duration-300'
+          '!bg-blue !p-3 !rounded-md !w-16 !h-16 text-white hover:opacity-50 duration-300'
         }
       >
         <ShareIcon />
       </IconButton>
       <ReactTooltip id={'controls-share'} />
       <ToastContainer
-        toastClassName={'!bg-blue !text-white'}
+        toastClassName={'!bg-blue !text-white !cursor-auto'}
         position="bottom-left"
         autoClose={false}
         newestOnTop={false}

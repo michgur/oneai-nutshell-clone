@@ -4,6 +4,7 @@ import { entitiesStateAtom, summaryState } from '../lib/atoms';
 import { DATA_LOADING, SUMMARY_ERROR } from '../lib/data-bus';
 import { Label } from '../lib/interface';
 import { useTitle } from '../lib/utils';
+import './classes.css';
 import { Spinner } from './spinner';
 import { Section } from './wrappers';
 
@@ -14,7 +15,7 @@ export function SummarySection() {
   return (
     <>
       <h1 className="text-lg pb-2 pt-4 font-poppins font-semibold">{title}</h1>
-      <Section className="font-poppins text-md mb-4 leading-6 h-summary overflow-auto">
+      <Section className="font-poppins text-md mb-4 leading-6 h-fit max-h-summary overflow-auto">
         {text === '' ? null : (
           <>
             {text === DATA_LOADING ? (
@@ -86,6 +87,7 @@ function SummaryText({ text }: { text: string }) {
   return (
     <>
       <div
+        className="summary"
         style={{ wordBreak: 'break-word' }}
         dangerouslySetInnerHTML={{ __html: textTransformed }}
       ></div>

@@ -31,7 +31,7 @@ module.exports = {
         '4-auto': 'repeat(4, auto)',
         '1fr-3-auto': '1fr auto auto auto',
       },
-      height: {
+      maxHeight: {
         summary: '28rem',
       },
     },

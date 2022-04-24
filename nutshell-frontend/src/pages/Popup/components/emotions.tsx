@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { useRecoilValue } from 'recoil';
-import { emotionsLabelsState } from '../lib/atoms';
+import { emotionsLabelsState, LS_PREFIX } from '../lib/atoms';
 import { DATA_LOADING } from '../lib/data-bus';
 import { useEventLogger, UserEvent } from '../lib/event-logger';
+import { useLocalStorage } from '../lib/hooks';
 import { Label } from '../lib/interface';
 import {
   capitalizeFirstLetter,
@@ -57,6 +58,11 @@ const EmptyEmotions = () => {
 const EmotionEye = () => {
   const { eventLogger } = useEventLogger();
   const emotionsLabels: any = useRecoilValue(emotionsLabelsState);
+  const url = localStorage.getItem(LS_PREFIX);
+  const [showEmotions, setShowEmotions] = useLocalStorage(
+    `${url}__show_emotions`,
+    'true'
+  );
 
   return (
     <>
@@ -64,11 +70,14 @@ const EmotionEye = () => {
         onClick={() => {
           sendToggleEmotions(emotionsLabels);
           eventLogger(UserEvent.CLICKED_EMOTIONS_EYE);
+          setShowEmotions(!showEmotions);
         }}
-        dataTip={'Show/hide emotions'}
+        dataTip={`${showEmotions ? 'Hide' : 'Show'} emotions`}
         dataFor={'emotions-showhide'}
-        ariaLabel={'Show/hide emotions'}
-        className={'!p-0 !w-8 !h-8 text-button'}
+        ariaLabel={`${showEmotions ? 'Hide' : 'Show'} emotions`}
+        className={`!p-0 !w-8 !h-8 text-button hover:text-cyan ${
+          showEmotions ? 'text-blue' : ''
+        }`}
       >
         <EyeIcon />
       </IconButton>
@@ -85,12 +94,19 @@ const emotionsMap = {
   anger: { color: '#ffe800', exist: false },
 };
 
+const computeLabelsWidths = (emotionsLabels: Array<Label>) => {
+  let widths = emotionsLabels.map((e) => e.span[1] - e.span[0]);
+  const max = Math.max(...widths);
+  return widths.map((w) => 4 + 16 * (w / max));
+};
+
 const EmotionsBar = () => {
   const emotionsLabels: any = useRecoilValue(emotionsLabelsState);
   const textLen = emotionsLabels[emotionsLabels.length - 1]?.span?.[1];
   const labels: any = { ...emotionsMap };
   const normalLen = 368 / textLen;
   const { eventLogger } = useEventLogger();
+  const widths = computeLabelsWidths(emotionsLabels);
   return (
     <div className="w-full h-8 bg-darkGray relative">
       <div
@@ -107,8 +123,9 @@ const EmotionsBar = () => {
               });
             }}
             key={index}
-            className={`w-2 h-8 absolute`}
+            className={`h-8 absolute`}
             style={{
+              width: `${widths[index]}px`,
               backgroundColor: labels[emotionLabel?.name].color,
               left: emotionLabel?.span?.[1] * normalLen,
             }}

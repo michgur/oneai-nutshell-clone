@@ -67,15 +67,11 @@ export function Accordion({ children }: any) {
         <IconButton
           onClick={toggle}
           ariaLabel="Close One AI nutshell"
-          className={'!w-8 !h-8'}
+          className={`!w-8 !h-8 text-blue hover:text-cyan origin-center rotate-0 ${
+            isOpened ? '!rotate-180' : ''
+          }`}
         >
-          <div
-            className={`origin-center transition duration-300 rotate-0 text-white ${
-              isOpened ? '!rotate-180' : ''
-            }`}
-          >
-            <ChevronDownIcon />
-          </div>
+          <ChevronDownIcon />
         </IconButton>
       </div>
       <Collapse isOpened={isOpened}>{children}</Collapse>

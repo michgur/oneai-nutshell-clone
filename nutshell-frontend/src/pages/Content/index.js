@@ -50,7 +50,7 @@ function toggle() {
   if (root?.style?.transform === 'translateX(0px)') {
     hide();
     return false;
-  } else if(window.location.href.includes("oneai.com")){
+  } else if(window.location.href.includes("oneai.com/nutshell-share/")){
     hide();
 
   } else {

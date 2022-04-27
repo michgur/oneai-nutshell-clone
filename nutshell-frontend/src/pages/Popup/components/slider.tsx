@@ -62,7 +62,7 @@ export function SummarySlider() {
         onChangeCommitted={onChangeCommitted}
         onChange={handleChange}
         step={step}
-        min={summaryPercentRange[0]}
+        min={10}
         max={summaryPercentRange[1]}
       />
     </div>

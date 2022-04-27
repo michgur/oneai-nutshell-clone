@@ -117,7 +117,8 @@ const summaryPercentRangeSelector = selector({
     if (text.length === 0) {
       return [10, 250];
     }
-    const { lower, upper } = niceTicks(10, Math.floor(text.length * 0.2));
+    let { lower, upper } = niceTicks(10, Math.floor(text.length * 0.2));
+    lower = Math.max(10, lower);
     return [lower, upper];
   },
 });

@@ -1,4 +1,5 @@
 import React from 'react';
+import { EntitiesSlider } from './entities-slider';
 import { SummarySlider } from './slider';
 import { SectionHeader } from './text';
 
@@ -12,6 +13,8 @@ export default function ControlsSection() {
         </span> */}
       </div>
       <SummarySlider />
+      <div className=""></div>
+      <EntitiesSlider />
     </div>
   );
 }

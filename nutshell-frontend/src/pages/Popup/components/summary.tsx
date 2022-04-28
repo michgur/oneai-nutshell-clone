@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
-import { entitiesStateAtom, summaryState } from '../lib/atoms';
+import {
+  entitiesShownAmountAtom,
+  entitiesStateAtom,
+  summaryState,
+} from '../lib/atoms';
 import { DATA_LOADING, SUMMARY_ERROR } from '../lib/data-bus';
 import { Label } from '../lib/interface';
 import { useTitle } from '../lib/utils';
@@ -67,22 +71,24 @@ const highLightSpan = (text: string, label: Label) => {
 
 function SummaryText({ text }: { text: string }) {
   const entitites = useRecoilValue(entitiesStateAtom);
+  const entitiesShownAmount = useRecoilValue(entitiesShownAmountAtom);
   const [textTransformed, setTextTransformed] = React.useState('');
   // debugger;
+  console.debug('[entitiesShownAmount]', entitiesShownAmount);
   useEffect(() => {
     if (entitites === undefined) {
       return;
     }
     let t = text;
     entitites
-      .slice(0, 6)
+      .slice(0, entitiesShownAmount)
       .reverse()
       .forEach((label) => {
         t = highLightSpan(t, label);
       });
     setTextTransformed(t);
     // debugger;
-  }, [text, entitites]);
+  }, [text, entitites, entitiesShownAmount]);
 
   return (
     <>

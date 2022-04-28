@@ -32,7 +32,7 @@ module.exports = {
         '1fr-3-auto': '1fr auto auto auto',
       },
       maxHeight: {
-        summary: '28rem',
+        summary: '16rem',
       },
     },
   },

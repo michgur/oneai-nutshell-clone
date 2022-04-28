@@ -22,6 +22,7 @@ interface EventData {
   msg?: EventMessage | undefined;
   label?: Label;
   summary_slider?: number;
+  entities_slider?: number;
   url?: string;
 }
 

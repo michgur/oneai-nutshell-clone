@@ -123,6 +123,20 @@ const summaryPercentRangeSelector = selector({
   },
 });
 
+const entitiesShownAmountAtom = atom<number>({
+  key: 'entitiesShownAmountAtom',
+  default: 6,
+});
+
+const entitiesShownAmountRangeSelector = selector<any>({
+  key: 'entitiesShownAmountRangeSelector',
+  set: ({ set }, newValue) => set(entitiesShownAmountAtom, newValue as number),
+  get: ({ get }) => {
+    const amount = get(entitiesStateAtom);
+    return [0, amount.length];
+  },
+});
+
 const openClosedAtom = atom({ key: 'openClosedAtom', default: false });
 
 const htmlDocumentState = atom({
@@ -139,6 +153,8 @@ export {
   userIDAtom,
   summaryPercentState,
   summaryPercentRangeSelector,
+  entitiesShownAmountAtom,
+  entitiesShownAmountRangeSelector,
   articleTextAtom,
   extractHTMLAtom,
   shareAtom,

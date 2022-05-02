@@ -115,7 +115,7 @@ const summaryPercentRangeSelector = selector({
     const percent = get(summaryPercentState);
     const text = get(articleTextAtom);
     if (text.length === 0) {
-      return [10, 250];
+      return [10, 290];
     }
     let { lower, upper } = niceTicks(10, Math.floor(text.length * 0.2));
     lower = Math.max(10, lower);

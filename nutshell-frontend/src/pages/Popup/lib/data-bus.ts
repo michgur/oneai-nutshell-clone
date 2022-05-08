@@ -16,9 +16,10 @@ import {
   summaryState,
   urlState,
 } from './atoms';
-import { extractTextFromHtml } from './comm';
+import { runPipeline } from './comm';
 // import { fromCache } from './comm';
 import { useEventLogger, UserEvent } from './event-logger';
+import { Label } from './interface';
 import { sendShowEmotions } from './utils';
 
 export const DATA_LOADING = 'DATA_LOADING';
@@ -62,7 +63,8 @@ export default function DataBUS() {
             htmlCode.length
           );
           eventLogger(UserEvent.SUMMARIZED_ARTICLE, { url: url });
-          result = await extractTextFromHtml(htmlCode, {
+          // debugger;
+          result = await runPipeline(url, {
             summaryLength: summaryPercent,
             setArticleText,
             setExtractHTML,
@@ -78,11 +80,19 @@ export default function DataBUS() {
         setText(SUMMARY_ERROR);
         setEmotionsLabels(EMOTIONS_ERROR);
       } else {
-        // debugger;
         setText(result?.output[1]?.text);
-        setEntities(result?.output[1]?.labels);
-        const emotionsLabels = result.output[0].labels;
-        setEmotionsLabels(result.output[0].labels);
+        setEntities(
+          result?.output[1]?.labels?.filter(
+            (label: Label) =>
+              label.skill === 'entity' || label.skill === 'entities'
+          )
+        );
+        const emotionsLabels = result?.output[0]?.labels?.filter(
+          (label: Label) =>
+            label.skill === 'emotion' || label.skill === 'emotions'
+        );
+        setEmotionsLabels(emotionsLabels);
+        setExtractHTML(result?.output[0]);
         setTimeout(() => {
           sendShowEmotions(emotionsLabels);
         }, 200);

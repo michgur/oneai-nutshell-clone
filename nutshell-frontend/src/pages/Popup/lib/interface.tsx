@@ -6,6 +6,7 @@ export type PipelineOpts = {
 
 export type Label = {
   type: string;
+  skill: string;
   name: string;
   span_text: string;
   span: [number, number];

@@ -1,7 +1,7 @@
 import { LS_PREFIX } from './atoms';
 import { SUMMARY_ERROR } from './data-bus';
 import { PipelineOpts } from './interface';
-import { requestHeader, requestSteps, sendAddIDToElements } from './utils';
+import { requestHeader, sendAddIDToElements } from './utils';
 const apiURL = 'https://api.oneai.com/api/v0/pipeline';
 const apiAnalytics = 'https://api.oneai.com/analytics/apps/nutshell';
 
@@ -19,22 +19,27 @@ export async function sendBIEvent(eventData: any) {
   }
 }
 
-export async function extractTextFromHtml(
-  htmlCode: string,
-  opts: PipelineOpts
-) {
+export async function runPipeline(url: string, opts: PipelineOpts) {
   try {
     const rawResponse = await fetch(apiURL, {
       method: 'POST',
       headers: { ...requestHeader },
       body: JSON.stringify({
-        text: htmlCode,
+        text: url,
         input_type: 'article',
-        steps: [{ ...requestSteps.extractHtml }],
+        steps: [
+          { skill: 'extract-html' },
+          { skill: 'emotions' },
+          { skill: 'summarize', params: { find_origins: true } },
+          { skill: 'entities' },
+        ],
       }),
     });
     const response = await rawResponse.json();
-    const textFromHTml = response?.output?.[0]?.text || '';
+    const title =
+      response?.output?.[0]?.labels?.filter((label: any) => {
+        return label.name === 'title';
+      }) || '';
     const subheadings =
       response?.output?.[0]?.labels?.filter((label: any) => {
         return label.name === 'subheading';
@@ -42,107 +47,14 @@ export async function extractTextFromHtml(
     sendAddIDToElements(subheadings);
 
     opts.setExtractHTML(response?.output?.[0]);
-    opts.setArticleText(textFromHTml);
-    const responseEmotions = await extractEmotions(textFromHTml);
-    const responseSummarize = await extractSummarize(textFromHTml, opts);
-    console.debug('[@@@@ extractOutput] response', response);
-    console.debug('[@@@@ responseEmotions]', responseEmotions);
-    console.debug('[@@@@ responseSummarize]', responseSummarize);
-    responseEmotions.output = [
-      ...responseEmotions.output,
-      ...responseSummarize.output,
-    ];
-    return responseEmotions;
+    opts.setArticleText(title);
+    return response;
   } catch (error) {
-    console.debug('[@@@@ extractOutput] error', error);
+    console.debug('[@@@@ runPipeline] error', error);
     return null;
   }
 }
 
-export async function extractEmotions(text: string) {
-  try {
-    const rawResponse = await fetch(apiURL, {
-      method: 'POST',
-      headers: { ...requestHeader },
-      body: JSON.stringify({
-        text: text,
-        input_type: 'auto-detect',
-        steps: [{ ...requestSteps.emotions }],
-      }),
-    });
-    const response = await rawResponse.json();
-    console.debug('[@@@@ extractEmotions] response', response);
-    return response;
-  } catch (error) {
-    console.debug('[@@@@ extractEmotions] error', error);
-    return null;
-  }
-}
-
-export async function extractSummarize(text: string, opts: PipelineOpts) {
-  // const length = Math.floor((text.length * opts.summaryPercent) / 100);
-  // const range = 40;
-  // const params = {
-  //   params: { min_length: length - range, max_length: length + range },
-  // };
-  // const steps = [{ ...requestSteps.summarize, ...params }];
-  const params = {
-    min_length: opts.summaryLength,
-    max_length: opts.summaryLength,
-  };
-  const steps = [
-    { ...requestSteps.summarize, params },
-    { ...requestSteps.entities },
-  ];
-  console.debug('[@@@@ extractSummarize] steps', steps);
-  try {
-    const rawResponse = await fetch(apiURL, {
-      method: 'POST',
-      headers: { ...requestHeader },
-      body: JSON.stringify({
-        text: text,
-        input_type: 'auto-detect',
-        steps,
-      }),
-    });
-    const response = await rawResponse.json();
-    console.debug('[@@@@ extractSummarize] response', response);
-    return response;
-  } catch (error) {
-    console.debug('[@@@@ extractSummarize] error', error);
-    return null;
-  }
-}
-
-export async function extractOutput({
-  url,
-  summary_percent,
-}: {
-  url: string;
-  summary_percent: number;
-}) {
-  try {
-    const fullURL = new URL(apiURL);
-    fullURL.searchParams.append('url', url);
-    fullURL.searchParams.append('summary_percent', String(summary_percent));
-    const cacheRes = fromCache(url, String(summary_percent));
-    console.debug('[@@@@ extractOutput] cacheRes', cacheRes);
-    if (cacheRes !== null) {
-      return cacheRes;
-    }
-    if (mock) {
-      await sleep(2000);
-      return mockResponse;
-    }
-    const rawResponse = await fetch(fullURL.href, {});
-    const response = await rawResponse.json();
-    console.debug('[@@@@ extractOutput] response', response);
-    return response;
-  } catch (error) {
-    console.debug('[@@@@ extractOutput] error', error);
-    return null;
-  }
-}
 function sleep(ms: any) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }

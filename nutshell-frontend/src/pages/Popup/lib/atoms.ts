@@ -1,5 +1,4 @@
 import { atom, selector } from 'recoil';
-import { DATA_LOADING } from './data-bus';
 import { niceTicks } from './nice-ticks';
 
 console.debug('[@@@@ atoms localStorage data]', localStorage);
@@ -20,7 +19,8 @@ const localStorageEffect =
     if (key === 'summaryState') {
       ulrKey = `${ulrKey}__${summaryPercent}`;
     }
-    const savedValue = localStorage.getItem(ulrKey);
+    // const savedValue = localStorage.getItem(ulrKey);
+    const savedValue = null;
     console.debug(
       '[@@@@ atoms localStorageEffect], url:',
       ulrKey,
@@ -30,7 +30,7 @@ const localStorageEffect =
     if (savedValue != null) {
       setSelf(JSON.parse(savedValue));
     } else {
-      setSelf(DATA_LOADING);
+      // setSelf(DATA_LOADING);
     }
     onSet((newValue: any) => {
       const summaryPercent = getLoadable(summaryPercentState).contents;

@@ -19,7 +19,7 @@ export function SummarySection() {
   return (
     <>
       <h1 className="text-lg pb-2 pt-4 font-poppins font-semibold">{title}</h1>
-      <Section className="font-poppins text-md mb-4 leading-6 h-fit max-h-summary overflow-auto">
+      <Section className="wrapper font-poppins text-md mb-4 leading-6 h-fit max-h-summary overflow-auto">
         {text === '' ? null : (
           <>
             {text === DATA_LOADING ? (

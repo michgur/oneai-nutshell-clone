@@ -17,10 +17,10 @@ function Sections() {
   return (
     <div className="grid text-white">
       <SummarySection />
-      <TableOfContents />
       <ControlsSection />
-      <EmotionsSection />
-      <RateShareSection />
+      <TableOfContents />
+      {/* <EmotionsSection /> */}
+      {/* <RateShareSection /> */}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 export function Button({ children, className, onClick = () => {} }: any) {
   return (
-    <button className={`py-2 px-8 w-fit ${className}`} onClick={onClick}>
+    <button className={`py-1 px-1 w-fit ${className}`} onClick={onClick}>
       {children}
     </button>
   );

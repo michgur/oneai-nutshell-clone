@@ -70,14 +70,18 @@ const OneAISlider = styled(Slider)(({ theme }) => ({
   color: '#00FFFF',
   height: 9,
   padding: '0 0',
+
+  // border-left: "35px solid transparent",
+  // border-right: "35px solid transparent",
+  // border-bottom: "70px solid,"
   '& .MuiSlider-thumb': {
     height: 30,
     width: 30,
-    backgroundColor: '#00FFFF',
+    backgroundColor: 'transparent',
     color: '#1d1c29',
     fontSize: '10px',
     opacity: 1,
-    boxShadow: '0 0 0 8px rgba(0, 255, 255, 0.2)',
+    // boxShadow: '0 0 0 8px rgba(0, 255, 255, 0.2)',
     // border: '1px solid currentColor',
     '&:hover': {
       boxShadow: '0 0 0 8px rgba(58, 133, 137, 0.16)',
@@ -96,6 +100,19 @@ const OneAISlider = styled(Slider)(({ theme }) => ({
     height: 8,
     borderRadius: 0,
   },
+  '& .MuiSlider-thumbColorPrimary': {
+    marginTop: -4,
+    borderRight: 15,
+    borderRightColor: 'transparent',
+    borderRightStyle: 'solid',
+    borderLeft: 15,
+    borderLeftColor: 'transparent',
+    borderLeftStyle: 'solid',
+    borderBottom: 25,
+    borderBottomColor: '#00FFFF',
+    borderBottomStyle: 'solid',
+    borderRadius: 2,
+  },
 }));
 
 function OneAISliderThumbComponent(props: any) {
@@ -110,7 +127,7 @@ function OneAISliderThumbComponent(props: any) {
           {thumbValue}
         </span>
       </div> */}
-      <span>{thumbValue}</span>
+      <span className='mt-[35px] text-dark'>{thumbValue}</span>
     </SliderThumb>
   );
 }

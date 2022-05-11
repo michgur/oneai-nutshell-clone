@@ -17,10 +17,10 @@ const toggleButtonState = atom({
 });
 export default function RateShareSection() {
   return (
-    <div className="mt-4 grid grid-cols-1fr-3-auto gap-x-4 items-center mb-4">
-      <h2 className="font-poppins font-semibold">
+    <div className="mt-4 grid grid-cols-1fr-1fr-auto gap-x-1 items-center mb-4">
+      {/* <h2 className="font-poppins font-semibold">
         You can rate or share this summary
-      </h2>
+      </h2> */}
       <ThumbsUp />
       <ThumbsDown />
       <Share />
@@ -136,7 +136,7 @@ const Share = () => {
         dataFor={'controls-share'}
         ariaLabel={'share'}
         className={
-          '!bg-blue !p-3 !rounded-md !w-16 !h-16 text-white hover:opacity-50 duration-300'
+          ' text-white hover:opacity-50 duration-300'
         }
       >
         <ShareIcon />

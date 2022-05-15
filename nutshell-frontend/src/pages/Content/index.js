@@ -2,6 +2,7 @@
 import { eventLogger, UserEvent } from '../Popup/lib/event-logger';
 import { addIDToElements, highLightToggle } from '../Popup/lib/highlight';
 import { ROOT_APP_ID } from '../Popup/lib/utils';
+import { blackList } from '../Popup/lib/utils';
 
 console.debug('[@@@@ content]', 'start');
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
@@ -45,12 +46,20 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 });
 
 function toggle() {
+  let siteIsInBlackList = false
+  for (let index = 0; index < blackList.length; index++) {
+    const element = blackList[index];
+    if (window.location.href.includes(element.siteName)) {
+      siteIsInBlackList = true
+      return 
+    }
+  }
   console.debug('[@@@@ content] toggle');
   const root = document.getElementById(ROOT_APP_ID);
   if (root?.style?.transform === 'translateX(0px)') {
     hide();
     return false;
-  } else if(window.location.href.includes("oneai.com/nutshell-share/")){
+  } else if(siteIsInBlackList){
     hide();
 
   } else {
@@ -141,7 +150,7 @@ function getRandomToken() {
     }
     if (items.USER_ID) {
       // chrome.storage.sync.remove('USER_ID', function () {}); // for debug
-    } else {
+    } else {  
       const USER_ID = getRandomToken();
       chrome.storage.sync.set({ USER_ID }, function () {});
     }

@@ -89,3 +89,39 @@ export const useSubheadings = () => {
     }) || [];
   return subheadings;
 };
+
+export const blackList =  [
+  { "siteName": "google.com"},
+  { "siteName": "facebook.com"},
+  { "siteName": "youtube.com"},
+  { "siteName": "twitter.com"},
+  { "siteName": "linkedin.com"},
+  { "siteName": "github.com"},
+  { "siteName": "amazon.com"},
+  { "siteName": "instagram.com"},
+  { "siteName": "yahoo.com"},
+  { "siteName": "twitch.tv"},
+  { "siteName": "reddit.com"},
+  { "siteName": "pornhub.com"},
+  { "siteName": "xvideos.com"},
+  { "siteName": "xnxx.com"},
+  { "siteName": "biy.ly"},
+  { "siteName": "vk.com"},
+  { "siteName": "office.com"},
+  { "siteName": "discord.com"},
+  { "siteName": "ebay.com"},
+  { "siteName": "netflix.com"},
+  { "siteName": "duckduckgo.com"},
+  { "siteName": "bing.com"},
+  { "siteName": "zoom.com"},
+  { "siteName": "roblox.com"},
+  { "siteName": "pinterest.com"},
+  { "siteName": "tiktok.com"},
+  { "siteName": "craigslist.com"},
+  { "siteName": "paypal.com"},
+  { "siteName": "aol.com"},
+  { "siteName": "hulu.com"},
+  { "siteName": "Oneai.com"},
+  { "siteName": "shoppify.com"}
+];
+

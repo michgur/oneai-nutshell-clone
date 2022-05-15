@@ -122,6 +122,7 @@ function getRandomToken() {
     top: 0 !important;
     bottom: 0 !important;
     right: 0 !important;
+    height: 70% !important;
     padding: 12px 12px 12px 0px !important;
     z-index: 1000000000000000000 !important;
     transition: transform 0.5s !important;

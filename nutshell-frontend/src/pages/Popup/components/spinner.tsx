@@ -25,8 +25,8 @@ const LottieLoader = () => {
     <Lottie
       isClickToPauseDisabled={true}
       options={loaderAnimation}
-      height={220}
-      width={180}
+      height={180}
+      width={140}
       style={{ cursor: 'auto' }}
     />
   );

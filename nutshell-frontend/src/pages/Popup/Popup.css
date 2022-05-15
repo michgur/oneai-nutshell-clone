@@ -1,7 +1,7 @@
 .app-wrapper {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
   min-height: -webkit-fill-available;
   height: 100%;
 }

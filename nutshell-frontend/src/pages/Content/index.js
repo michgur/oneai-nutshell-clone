@@ -47,31 +47,43 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 
 function toggle() {
   let siteIsInBlackList = false
-  for (let index = 0; index < blackList.length; index++) {
-    const element = blackList[index];
-    if (window.location.href.includes(element.siteName)) {
-      siteIsInBlackList = true
-      return 
-    }
-  }
   console.debug('[@@@@ content] toggle');
   const root = document.getElementById(ROOT_APP_ID);
   if (root?.style?.transform === 'translateX(0px)') {
     hide();
     return false;
-  } else if(siteIsInBlackList){
-    hide();
-
-  } else {
-    show();
+  }  else {
+    for (let index = 0; index < blackList.length; index++) {
+      const element = blackList[index];
+      if (window.location.href.toLocaleLowerCase().includes(element.siteName.toLocaleLowerCase())) {
+        siteIsInBlackList = true
+        return hide();
+      }else {
+        show();
     return true;
+      }
+    }
   }
 }
 
 function show({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
+  let siteIsInBlackList = false;
+  for (let index = 0; index < blackList.length; index++) {
+    const element = blackList[index];
+    if (window.location.href.toLocaleLowerCase().includes(element.siteName.toLocaleLowerCase())) {
+     return siteIsInBlackList = true
+    }
+  }
   // app.style.transform = 'translateX(0)';
-  app.style.setProperty('transform', 'translateX(0)', 'important');
+ 
+  if (siteIsInBlackList) {
+    app.style.setProperty('transform', 'translateX(100%)', 'important');
+    app.style.setProperty('height', '0%', 'important');
+  } else {
+    app.style.setProperty('transform', 'translateX(0)', 'important');
+    app.style.setProperty('height', '70%', 'important');
+  }
   if (logEvent) {
     sendEvent(UserEvent.NUTSHELL_OPENED);
   }
@@ -83,7 +95,9 @@ function show({ logEvent = true } = {}) {
 function hide({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
   // app.style.transform = 'translateX(100%)';
-  app.style.setProperty('transform', 'translateX(100%)', 'important');
+  app.style.setProperty('transform', 'translateX(84%)', 'important');
+  app.style.setProperty('height', '10%', 'important');
+  app.style.setProperty('top', '14%', 'important');
 
   if (logEvent) {
     sendEvent(UserEvent.NUTSHELL_CLOSED);
@@ -118,6 +132,8 @@ function getRandomToken() {
   const shadowRoot = app.attachShadow({ mode: 'closed' });
   const iframe = document.createElement('iframe');
 
+
+  
   iframe.src = chrome.runtime.getURL('popup.html');
   iframe.setAttribute('frameborder', '0');
   iframe.style.cssText = ` 

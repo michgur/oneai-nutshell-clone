@@ -91,6 +91,7 @@ export const useSubheadings = () => {
 };
 
 export const blackList =  [
+  { "siteName": "oneai.com"},
   { "siteName": "google.com"},
   { "siteName": "facebook.com"},
   { "siteName": "youtube.com"},
@@ -121,7 +122,6 @@ export const blackList =  [
   { "siteName": "paypal.com"},
   { "siteName": "aol.com"},
   { "siteName": "hulu.com"},
-  { "siteName": "Oneai.com"},
   { "siteName": "shoppify.com"}
 ];
 

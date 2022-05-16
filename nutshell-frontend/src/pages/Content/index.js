@@ -82,7 +82,7 @@ function show({ logEvent = true } = {}) {
     app.style.setProperty('height', '0%', 'important');
   } else {
     app.style.setProperty('transform', 'translateX(0)', 'important');
-    app.style.setProperty('height', '70%', 'important');
+    app.style.setProperty('height', '90%', 'important');
   }
   if (logEvent) {
     sendEvent(UserEvent.NUTSHELL_OPENED);
@@ -147,7 +147,7 @@ function getRandomToken() {
     top: 0 !important;
     bottom: 0 !important;
     right: 0 !important;
-    height: 70% !important;
+    height: 90% !important;
     padding: 12px 12px 12px 0px !important;
     z-index: 1000000000000000000 !important;
     transition: transform 0.5s !important;

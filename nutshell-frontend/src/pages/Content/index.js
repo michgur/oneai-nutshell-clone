@@ -140,7 +140,7 @@ function getRandomToken() {
     width: 503px !important;
     height: 100% !important;
     border-radius: 5px !important;
-    box-shadow: rgb(0 0 0 / 15%) 0px 5px 15px 0px !important;
+    // box-shadow: rgb(0 0 0 / 15%) 0px 5px 15px 0px !important;
   `;
   app.style.cssText = ` 
     position: fixed !important;

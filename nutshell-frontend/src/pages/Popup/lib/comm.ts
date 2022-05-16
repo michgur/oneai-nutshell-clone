@@ -31,7 +31,7 @@ export async function runPipeline(url: string, opts: PipelineOpts) {
           { skill: 'extract-html' },
           { skill: 'emotions' },
           { skill: 'summarize', params: { find_origins: true } },
-          { skill: 'entities' },
+          { skill: 'keywords' },
         ],
       }),
     });

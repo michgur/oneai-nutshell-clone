@@ -16,18 +16,6 @@ export const requestHeader = {
   Referer: 'https://studio.oneai.com/',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
 };
-export const requestSteps = {
-  extractHtml: {
-    skill: 'extract-html',
-  },
-  emotions: {
-    skill: 'emotions',
-  },
-  summarize: {
-    skill: 'summarize',
-  },
-  entities: { skill: 'entities' },
-};
 
 export const emotionLabelToLabelID = (label: Label) => {
   return `oneai__emotion__${label.span[0]}_${label.span[1]}`;

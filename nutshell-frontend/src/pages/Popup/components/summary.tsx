@@ -73,7 +73,7 @@ function SummaryText({ text }: { text: string }) {
   const entitites = useRecoilValue(entitiesStateAtom);
   const entitiesShownAmount = useRecoilValue(entitiesShownAmountAtom);
   const [textTransformed, setTextTransformed] = React.useState('');
-  // debugger;
+  debugger;
   console.debug('[entitiesShownAmount]', entitiesShownAmount);
   useEffect(() => {
     if (entitites === undefined) {
@@ -82,6 +82,7 @@ function SummaryText({ text }: { text: string }) {
     let t = text;
     entitites
       .slice(0, entitiesShownAmount)
+      .sort((a: Label, b: Label) => a.span[0] - b.span[0])
       .reverse()
       .forEach((label) => {
         t = highLightSpan(t, label);

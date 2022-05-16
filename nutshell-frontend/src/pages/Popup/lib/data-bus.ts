@@ -80,11 +80,12 @@ export default function DataBUS() {
         setText(SUMMARY_ERROR);
         setEmotionsLabels(EMOTIONS_ERROR);
       } else {
+        debugger
         setText(result?.output[1]?.text);
         setEntities(
           result?.output[1]?.labels?.filter(
             (label: Label) =>
-              label.skill === 'entity' || label.skill === 'entities'
+              label.skill === 'keyword' || label.skill === 'keywords'
           )
         );
         const emotionsLabels = result?.output[0]?.labels?.filter(

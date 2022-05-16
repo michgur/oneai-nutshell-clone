@@ -14,8 +14,10 @@ export default function Header() {
   };
   return (
     <header className="bg-darkGray flex flex-row justify-between w-full gap-x-8 p-4">
-      <div className="grid grid-cols-3-auto gap-x-4 font-light items-center font-mono tracking-tighter">
+      <div className="grid grid-cols-3-auto gap-x-4 font-light items-center font-mono tracking-tighter" >
+        <button onClick={closeOnClick}>
         <img width={49} src={logo} alt="logo" />
+        </button>
         <span className="text-white">
         <span className="text-pink text-2xl">Nutshell</span>
         </span>

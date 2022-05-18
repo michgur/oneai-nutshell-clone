@@ -57,11 +57,11 @@ function toggle() {
     return false;
   }  else {
     if (isProbablyReaderable(document)) {
-        siteIsInBlackList = true
-        return hide();
-    } else {
       show();
       return true;
+    } else {
+      siteIsInBlackList = true
+      return hide();
     }
   }
 }

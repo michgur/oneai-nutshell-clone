@@ -64,7 +64,7 @@ export default function DataBUS() {
           );
           eventLogger(UserEvent.SUMMARIZED_ARTICLE, { url: url });
           // debugger;
-          result = await runPipeline(url, {
+          result = await runPipeline(htmlCode, {
             summaryLength: summaryPercent,
             setArticleText,
             setExtractHTML,

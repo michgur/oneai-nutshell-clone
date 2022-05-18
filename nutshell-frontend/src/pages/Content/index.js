@@ -3,14 +3,17 @@ import { eventLogger, UserEvent } from '../Popup/lib/event-logger';
 import { addIDToElements, highLightToggle } from '../Popup/lib/highlight';
 import { ROOT_APP_ID } from '../Popup/lib/utils';
 import { blackList } from '../Popup/lib/utils';
+import { Readability, isProbablyReaderable } from '@mozilla/readability';
 
 console.debug('[@@@@ content]', 'start');
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
   console.debug('[@@@@ content]', msg);
   // debugger;
   if (msg.from === 'popup' && msg.subject === 'DOMInfo') {
+    debugger;
+    var htmlContent = new Readability(document.cloneNode(true), { serializer: element => element }).parse()?.content?.textContent;
     var domInfo = {
-      html: document.documentElement.innerHTML ?? '',
+      html: htmlContent,
       url: document?.location?.href ?? '',
       pageTitle:
         document?.querySelector('h1')?.textContent ??
@@ -53,15 +56,12 @@ function toggle() {
     hide();
     return false;
   }  else {
-    for (let index = 0; index < blackList.length; index++) {
-      const element = blackList[index];
-      if (window.location.href.toLocaleLowerCase().includes(element.siteName.toLocaleLowerCase())) {
+    if (isProbablyReaderable(document)) {
         siteIsInBlackList = true
         return hide();
-      }else {
-        show();
-    return true;
-      }
+    } else {
+      show();
+      return true;
     }
   }
 }

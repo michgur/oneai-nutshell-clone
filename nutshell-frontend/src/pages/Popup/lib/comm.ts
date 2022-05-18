@@ -28,7 +28,6 @@ export async function runPipeline(url: string, opts: PipelineOpts) {
         text: url,
         input_type: 'article',
         steps: [
-          { skill: 'extract-html' },
           { skill: 'emotions' },
           { skill: 'summarize', params: { find_origins: true } },
           { skill: 'keywords' },

@@ -80,7 +80,7 @@ export default function DataBUS() {
         setText(SUMMARY_ERROR);
         setEmotionsLabels(EMOTIONS_ERROR);
       } else {
-        debugger
+        // debugger
         setText(result?.output[1]?.text);
         setEntities(
           result?.output[1]?.labels?.filter(

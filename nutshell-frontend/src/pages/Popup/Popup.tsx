@@ -47,7 +47,7 @@ function App() {
           { from: 'popup', subject: 'DOMInfo' },
           (data) => {
             if (Boolean(data)) {
-              debugger;
+              // debugger;
               setPageTitle(data.pageTitle);
               setHtml(data.html);
               setURL(data.url);

@@ -73,7 +73,7 @@ function SummaryText({ text }: { text: string }) {
   const entitites = useRecoilValue(entitiesStateAtom);
   const entitiesShownAmount = useRecoilValue(entitiesShownAmountAtom);
   const [textTransformed, setTextTransformed] = React.useState('');
-  debugger;
+  // debugger;
   console.debug('[entitiesShownAmount]', entitiesShownAmount);
   useEffect(() => {
     if (entitites === undefined) {

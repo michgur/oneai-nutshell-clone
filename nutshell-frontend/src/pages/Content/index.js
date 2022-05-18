@@ -10,7 +10,7 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
   console.debug('[@@@@ content]', msg);
   // debugger;
   if (msg.from === 'popup' && msg.subject === 'DOMInfo') {
-    debugger;
+    // debugger;
     var htmlContent = new Readability(document.cloneNode(true), { serializer: element => element }).parse()?.content?.textContent;
     var domInfo = {
       html: htmlContent,
@@ -58,9 +58,11 @@ function toggle() {
   }  else {
     if (isProbablyReaderable(document)) {
       show();
+      console.debug('[@@@@ content]', 'Site is probably readerable');
       return true;
     } else {
       siteIsInBlackList = true
+      console.debug('[@@@@ content]', 'Site is not probably readerable');
       return hide();
     }
   }

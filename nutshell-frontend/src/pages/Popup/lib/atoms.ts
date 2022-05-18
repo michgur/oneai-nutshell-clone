@@ -132,6 +132,7 @@ const entitiesShownAmountRangeSelector = selector<any>({
   key: 'entitiesShownAmountRangeSelector',
   set: ({ set }, newValue) => set(entitiesShownAmountAtom, newValue as number),
   get: ({ get }) => {
+    debugger;
     const amount = get(entitiesStateAtom);
     return [0, amount.length];
   },

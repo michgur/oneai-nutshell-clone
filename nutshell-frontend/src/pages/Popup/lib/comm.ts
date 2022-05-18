@@ -28,25 +28,23 @@ export async function runPipeline(url: string, opts: PipelineOpts) {
         text: url,
         input_type: 'article',
         steps: [
-          { skill: 'emotions' },
           { skill: 'summarize', params: { find_origins: true } },
           { skill: 'keywords' },
         ],
       }),
     });
     const response = await rawResponse.json();
-    const title =
-      response?.output?.[0]?.labels?.filter((label: any) => {
-        return label.name === 'title';
-      }) || '';
-    const subheadings =
-      response?.output?.[0]?.labels?.filter((label: any) => {
-        return label.name === 'subheading';
-      }) || [];
-    sendAddIDToElements(subheadings);
-
-    opts.setExtractHTML(response?.output?.[0]);
-    opts.setArticleText(title);
+    // const title =
+    //   response?.output?.[0]?.labels?.filter((label: any) => {
+    //     return label.name === 'title';
+    //   }) || '';
+    // const subheadings =
+    //   response?.output?.[0]?.labels?.filter((label: any) => {
+    //     return label.name === 'subheading';
+    //   }) || [];
+    // sendAddIDToElements(subheadings);
+    // opts.setExtractHTML(response?.output?.[0]);
+    // opts.setArticleText(title);
     return response;
   } catch (error) {
     console.debug('[@@@@ runPipeline] error', error);

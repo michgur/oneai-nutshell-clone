@@ -81,9 +81,9 @@ export default function DataBUS() {
         setEmotionsLabels(EMOTIONS_ERROR);
       } else {
         // debugger
-        setText(result?.output[1]?.text);
+        setText(result?.output[0]?.text);
         setEntities(
-          result?.output[1]?.labels?.filter(
+          result?.output[0]?.labels?.filter(
             (label: Label) =>
               label.skill === 'keyword' || label.skill === 'keywords'
           )

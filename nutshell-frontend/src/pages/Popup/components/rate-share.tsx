@@ -143,7 +143,7 @@ const Share = () => {
       </IconButton>
       <ReactTooltip id={'controls-share'} />
       <ToastContainer
-        toastClassName={'!bg-blue !text-white !cursor-auto'}
+        toastClassName={'!bg-blue !text-white !cursor-auto !bottom-[20em]'}
         position="bottom-left"
         autoClose={false}
         newestOnTop={false}

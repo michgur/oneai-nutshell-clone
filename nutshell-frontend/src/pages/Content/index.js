@@ -28,6 +28,9 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
   if (msg.from === 'popup' && msg.subject === 'toggle') {
     toggle();
   }
+  if (msg.from === 'popup' && msg.subject === 'totalClose') {
+    totalHide();
+  }
   if (msg.from === 'popup' && msg.subject === 'TOGGLE_EMOTIONS') {
     highLightToggle(msg?.data || []);
   }
@@ -63,7 +66,7 @@ function toggle() {
     } else {
       siteIsInBlackList = true
       console.debug('[@@@@ content]', 'Site is not probably readerable');
-      return hide();
+      return totalHide();
     }
   }
 }
@@ -98,7 +101,21 @@ function hide({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
   // app.style.transform = 'translateX(100%)';
   app.style.setProperty('transform', 'translateX(84%)', 'important');
-  app.style.setProperty('height', '10%', 'important');
+  app.style.setProperty('height', '80px', 'important');
+  app.style.setProperty('top', '14%', 'important');
+
+  if (logEvent) {
+    sendEvent(UserEvent.NUTSHELL_CLOSED);
+  }
+  chrome.storage.sync.set({ SHOW_APP_ON_INIT: false }, function () {
+    console.debug('[@@@@ content] set show on init:', false);
+  });
+}
+function totalHide({ logEvent = true } = {}) {
+  const app = document.querySelector(`#${ROOT_APP_ID}`);
+  // app.style.transform = 'translateX(100%)';
+  app.style.setProperty('transform', 'translateX(100%)', 'important');
+  app.style.setProperty('height', '90px', 'important');
   app.style.setProperty('top', '14%', 'important');
 
   if (logEvent) {

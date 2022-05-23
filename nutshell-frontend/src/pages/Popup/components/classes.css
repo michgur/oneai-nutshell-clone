@@ -1,3 +1,10 @@
 .summary::selection {
   background: #274852;
 }
+.showme {
+  display: none;
+}
+
+.showButton:hover .showme {
+  display: block;
+}

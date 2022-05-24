@@ -21,14 +21,15 @@ export async function sendBIEvent(eventData: any) {
 
 export async function runPipeline(url: string, opts: PipelineOpts) {
   try {
+    let min_length = Math.min(35, Math.floor(url.split(/\s+/).length * 0.05));
     const rawResponse = await fetch(apiURL, {
       method: 'POST',
       headers: { ...requestHeader },
       body: JSON.stringify({
-        text: url,
-        input_type: 'article',
+        text: 'NUTSHELL:\n' + url,
+        input_type: 'conversation',
         steps: [
-          { skill: 'summarize', params: { find_origins: true } },
+          { skill: 'summarize', params: { find_origins: true, min_length } },
           { skill: 'keywords' },
         ],
       }),

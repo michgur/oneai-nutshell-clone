@@ -101,7 +101,8 @@ function hide({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
   // app.style.transform = 'translateX(100%)';
   app.style.setProperty('transform', 'translateX(84%)', 'important');
-  app.style.setProperty('height', '80px', 'important');
+  app.style.setProperty('height', '92px', 'important');
+  app.style.setProperty('min-height', '92px', 'important');
   app.style.setProperty('top', '14%', 'important');
 
   if (logEvent) {

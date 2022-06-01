@@ -42,7 +42,7 @@ const Loading = () => {
     <div>
       <div className="h-full grid items-center grid-rows-auto-1fr">
         <span role="alert" className="h-fit">
-          Loading summary...
+        Summarizing...
         </span>
         <Spinner className={'mt-4'} />
       </div>

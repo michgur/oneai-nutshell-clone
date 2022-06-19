@@ -26,8 +26,9 @@ export async function runPipeline(url: string, opts: PipelineOpts) {
       method: 'POST',
       headers: { ...requestHeader },
       body: JSON.stringify({
-        text: 'NUTSHELL:\n' + url,
+        text: [{speaker: 'NUTSHELL', utterance: url}],
         input_type: 'conversation',
+        content_type: 'application/json',
         steps: [
           { skill: 'summarize', params: { find_origins: true, min_length } },
           { skill: 'keywords' },

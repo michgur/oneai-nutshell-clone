@@ -84,6 +84,7 @@ function show({ logEvent = true } = {}) {
   } else {
     app.style.setProperty('transform', 'translateX(0)', 'important');
     app.style.setProperty('height', '65%', 'important');
+    app.style.setProperty('max-height', '609px', 'important');
   }
   if (logEvent) {
     sendEvent(UserEvent.NUTSHELL_OPENED);
@@ -101,9 +102,9 @@ function hide({ logEvent = true } = {}) {
     app.style.setProperty('transform', 'translateX(92%)', 'important');
   }
 
-  app.style.setProperty('height', '34px', 'important');
+  app.style.setProperty('height', '55px', 'important');
   app.style.setProperty('min-height', '34px', 'important');
-  // app.style.setProperty('max-height', '34px', 'important');
+  app.style.setProperty('max-height', '55px', 'important');
   app.style.setProperty('top', '14%', 'important');
 
   if (logEvent) {

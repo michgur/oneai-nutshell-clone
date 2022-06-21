@@ -27,7 +27,7 @@ export default function Header() {
   };
   return (
     <>
-      <header className="bg-darkGray flex flex-row justify-between w-full gap-x-4 px-2 py-4">
+      <header className="bg-darkGray flex flex-row justify-between w-full gap-x-4 px-2 pb-4 pt-1">
         <div className="grid grid-cols-3-auto gap-x-4 font-light items-center font-mono tracking-tighter">
           <div className="showButton">
             {closedClicked && (

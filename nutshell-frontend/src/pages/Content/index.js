@@ -101,8 +101,9 @@ function hide({ logEvent = true } = {}) {
     app.style.setProperty('transform', 'translateX(92%)', 'important');
   }
 
-  app.style.setProperty('height', '80px', 'important');
-  app.style.setProperty('min-height', '80px', 'important');
+  app.style.setProperty('height', '34px', 'important');
+  app.style.setProperty('min-height', '34px', 'important');
+  // app.style.setProperty('max-height', '34px', 'important');
   app.style.setProperty('top', '14%', 'important');
 
   if (logEvent) {

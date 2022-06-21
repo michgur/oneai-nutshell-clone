@@ -1,9 +1,8 @@
 /* eslint-disable default-case */
+import { isProbablyReaderable, Readability } from '@mozilla/readability';
 import { eventLogger, UserEvent } from '../Popup/lib/event-logger';
 import { addIDToElements, highLightToggle } from '../Popup/lib/highlight';
-import { ROOT_APP_ID } from '../Popup/lib/utils';
-import { blackList } from '../Popup/lib/utils';
-import { Readability, isProbablyReaderable } from '@mozilla/readability';
+import { blackList, ROOT_APP_ID } from '../Popup/lib/utils';
 
 console.debug('[@@@@ content]', 'start');
 chrome.runtime.onMessage.addListener((msg, sender, response) => {
@@ -11,7 +10,9 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
   // debugger;
   if (msg.from === 'popup' && msg.subject === 'DOMInfo') {
     // debugger;
-    var htmlContent = new Readability(document.cloneNode(true), { serializer: element => element }).parse()?.content?.textContent;
+    var htmlContent = new Readability(document.cloneNode(true), {
+      serializer: (element) => element,
+    }).parse()?.content?.textContent;
     var domInfo = {
       html: htmlContent,
       url: document?.location?.href ?? '',
@@ -52,37 +53,32 @@ chrome.runtime.onMessage.addListener((msg, sender, response) => {
 });
 
 function toggle() {
-  let siteIsInBlackList = false
   console.debug('[@@@@ content] toggle');
   const root = document.getElementById(ROOT_APP_ID);
   if (root?.style?.transform === 'translateX(0px)') {
     hide();
     return false;
-  }  else {
+  } else {
     if (isProbablyReaderable(document)) {
       show();
       console.debug('[@@@@ content]', 'Site is probably readerable');
       return true;
     } else {
-      siteIsInBlackList = true
       console.debug('[@@@@ content]', 'Site is not probably readerable');
       return totalHide();
     }
   }
 }
 
+function isInBlackList() {
+  return blackList.map((site) => site.siteName).includes(window.location.host);
+}
+
 function show({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
-  let siteIsInBlackList = false;
-  for (let index = 0; index < blackList.length; index++) {
-    const element = blackList[index];
-    if (window.location.href.toLocaleLowerCase().includes(element.siteName.toLocaleLowerCase())) {
-     return siteIsInBlackList = true
-    }
-  }
+
   // app.style.transform = 'translateX(0)';
- 
-  if (siteIsInBlackList) {
+  if (isInBlackList()) {
     app.style.setProperty('transform', 'translateX(100%)', 'important');
     app.style.setProperty('height', '0%', 'important');
   } else {
@@ -99,8 +95,12 @@ function show({ logEvent = true } = {}) {
 
 function hide({ logEvent = true } = {}) {
   const app = document.querySelector(`#${ROOT_APP_ID}`);
-  // app.style.transform = 'translateX(100%)';
-  app.style.setProperty('transform', 'translateX(84%)', 'important');
+  if (isInBlackList()) {
+    app.style.setProperty('transform', 'translateX(100%)', 'important');
+  } else {
+    app.style.setProperty('transform', 'translateX(84%)', 'important');
+  }
+
   app.style.setProperty('height', '92px', 'important');
   app.style.setProperty('min-height', '92px', 'important');
   app.style.setProperty('top', '14%', 'important');
@@ -152,8 +152,6 @@ function getRandomToken() {
   const shadowRoot = app.attachShadow({ mode: 'closed' });
   const iframe = document.createElement('iframe');
 
-
-  
   iframe.src = chrome.runtime.getURL('popup.html');
   iframe.setAttribute('frameborder', '0');
   iframe.style.cssText = ` 
@@ -186,7 +184,7 @@ function getRandomToken() {
     }
     if (items.USER_ID) {
       // chrome.storage.sync.remove('USER_ID', function () {}); // for debug
-    } else {  
+    } else {
       const USER_ID = getRandomToken();
       chrome.storage.sync.set({ USER_ID }, function () {});
     }

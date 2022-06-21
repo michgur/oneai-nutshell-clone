@@ -31,12 +31,12 @@ export default function Header() {
         <div className="grid grid-cols-3-auto gap-x-4 font-light items-center font-mono tracking-tighter">
           <div className="showButton">
             {closedClicked && (
-              <span
+              <button
                 className="absolute hover:text-pink p-1 mt-[-10px] ml-[-10px] showme"
                 onClick={totalCloseOnClick}
               >
                 <CloseButtonIcon />
-              </span>
+              </button>
             )}
             <button onClick={closeOnClick}>
               <img width={49} src={logo} alt="logo" />

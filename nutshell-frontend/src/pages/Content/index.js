@@ -98,11 +98,11 @@ function hide({ logEvent = true } = {}) {
   if (isInBlackList()) {
     app.style.setProperty('transform', 'translateX(100%)', 'important');
   } else {
-    app.style.setProperty('transform', 'translateX(84%)', 'important');
+    app.style.setProperty('transform', 'translateX(92%)', 'important');
   }
 
-  app.style.setProperty('height', '92px', 'important');
-  app.style.setProperty('min-height', '92px', 'important');
+  app.style.setProperty('height', '80px', 'important');
+  app.style.setProperty('min-height', '80px', 'important');
   app.style.setProperty('top', '14%', 'important');
 
   if (logEvent) {

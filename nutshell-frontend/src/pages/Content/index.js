@@ -71,7 +71,7 @@ function toggle() {
 }
 
 function isInBlackList() {
-  return blackList.map((site) => site.siteName).includes(window.location.host);
+  return blackList.some((site) => window.location.host.includes(site.siteName));
 }
 
 function show({ logEvent = true } = {}) {

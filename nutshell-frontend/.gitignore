@@ -21,3 +21,4 @@ build.*.zip
 
 # secrets
 secrets.*.js
+.env
